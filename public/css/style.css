@@ -82,25 +82,7 @@ body {
     display: inline-block;
 }
 
-@media screen and (min-width: 0px) and (max-width: 733px) {
-    .navbar li:not(.flags) {
-        display: none;
-    }
-    
-    .flags img {
-        width: 7px;
-    }
 
-    .flags a {
-        font-size: 0.6rem !important;
-    }
-
-    .logo{
-        font-size: 0.7rem;
-    }
-
-    /* show it on small screens */
-}
 
 .navbar li a {
     text-decoration: none;
@@ -178,4 +160,19 @@ i:hover {
   80% { transform: translate(-1px, -1px) rotate(1deg); }
   90% { transform: translate(1px, 2px) rotate(0deg); }
   100% { transform: translate(1px, -2px) rotate(-1deg); } */
+}
+
+/*MEDIA SCREEN*/
+@media screen and (min-width: 0px) and (max-width: 733px) {
+ 
+    .navbar li {
+        display: none !important;
+    }
+
+
+    .logo {
+        font-size: 0.9rem;
+    }
+
+    /* show it on small screens */
 }
