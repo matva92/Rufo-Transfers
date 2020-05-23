@@ -106,8 +106,8 @@ body {
     text-decoration: none;
     margin-left: 1rem;
     padding-bottom: 3px;
-    transition: border-bottom 0.6s;
     font-size: 0.9rem;
+    transition: border-bottom 0.1s;
 }
 
 .navbar li a:hover {
@@ -140,7 +140,8 @@ body {
     width: 100%;
     background: rgb(38, 37, 49);
     background: linear-gradient(90deg, rgba(38, 37, 49, 1) 0%, #2b3b38 53%, #1d2544 100%);
-    box-shadow: 0 8px 6px -6px #999;
+    box-shadow: 0px 5px 5px -7px #Fff;
+    opacity: .8;
 }
 
 .flags img {
