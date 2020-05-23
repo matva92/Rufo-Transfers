@@ -161,75 +161,79 @@
 /*Colors*/
 
 .fred {
-    color: red;
+    color: red !important;
 }
 
 .fwhite {
-    color: white;
+    color: white !important;
 }
 
 .fblue {
-    color: blue
+    color: blue !important;
 }
 
 .forange {
-    color: orange
+    color: orange !important;
 }
 
 .fyellow {
-    color: yellow
+    color: yellow !important;
 }
 
 .fpurple {
-    color: purple
+    color: purple !important;
 }
 
 .fmagenta {
-    color: magenta
+    color: magenta !important;
 }
 
 .fgreen {
-    color: green;
+    color: green !important;
 }
 
 .fgray {
-    color: gray;
+    color: gray !important;
 }
 
 .bred {
-    background-color: red;
+    background-color: red !important;
 }
 
 .bwhite {
-    background-color: white;
+    background-color: white !important;
 }
 
 .bblue {
-    background-color: blue
+    background-color: blue !important;
 }
 
 .borange {
-    background-color: orange
+    background-color: orange !important;
 }
 
 .byellow {
-    background-color: yellow
+    background-color: yellow !important;
 }
 
 .bpurple {
-    background-color: purple
+    background-color: purple !important;
 }
 
 .bmagenta {
-    background-color: magenta;
+    background-color: magenta !important;
 }
 
 .bgreen {
-    background-color: green;
+    background-color: green !important;
 }
 
 .bgray {
-    background-color: gray;
+    background-color: gray !important;
+}
+
+.bblack {
+    background-color: black !important;
 }
 
 /* Borders */

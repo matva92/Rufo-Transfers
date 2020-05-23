@@ -182,9 +182,39 @@ body {
 }
 
 .banner:hover {
-    background-color: rgb(32, 31, 31);
+    background-color: black !important;
     color: white;
 }
+
+/* Formulario */
+
+.formulario {
+    margin: auto;
+}
+
+form {
+    margin-top: 20%;
+}
+
+form .card {
+    border: none;
+}
+
+form .fa-comment, form .fa-envelope, form .fa-user {
+    color: black !important;
+}
+
+.btn-info {
+    background-color: rgb(32, 31, 31);
+    transition: background-color 0.2s ease-in;
+}
+
+.btn-info:hover {
+    background-color: rgba(63, 63, 63,0.6);
+    color: white;
+}
+
+
 
 
 /*Animaciones*/
@@ -229,7 +259,11 @@ i:hover {
         display: none;
     }
 
+    .reloj {
+     display: none;
+    }
 
 
     /* show it on small screens */
 }
+

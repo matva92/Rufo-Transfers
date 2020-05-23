@@ -1,3 +1,11 @@
+:root {
+    --primary-color: rgba(13,110,139,0.5);
+    --overlay-color: rgba(24,39,51,0.1);
+    --menu-speed: 0.75s;
+}
+
+
+
 .menu-wrap {
     position: fixed;
     top: 0;
