@@ -214,6 +214,10 @@ form .fa-comment, form .fa-envelope, form .fa-user {
     color: white;
 }
 
+.btn {
+    border: none;
+}
+
 
 
 

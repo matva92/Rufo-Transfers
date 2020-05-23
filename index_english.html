@@ -14,8 +14,9 @@
   <link rel="stylesheet" href="public/css/helpers_classes.css">
   <link rel="stylesheet" href="public/css/style.css">
   <link rel="stylesheet" href="public/css/whatsapp.css">
+  <link rel="stylesheet" href="public/css/menu.css">
 
-  /*Fonts*/
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Chelsea+Market&display=swap"
     rel="stylesheet">
 
@@ -24,6 +25,28 @@
 
   <!-- FONTAWESOME -->
   <script src="https://kit.fontawesome.com/2c14e4bbc6.js" crossorigin="anonymous"></script>
+
+  <!-- Clock -->
+  <script>
+    function startTime() {
+      var today = new Date();
+      var h = today.getHours();
+      var m = today.getMinutes();
+      var s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('txt').innerHTML =
+        h + ":" + m + ":" + s;
+      var t = setTimeout(startTime, 500);
+    }
+
+    function checkTime(i) {
+      if (i < 10) {
+        i = "0" + i
+      }; // add zero in front of numbers < 10
+      return i;
+    }
+  </script>
 
   <title>Rufo Driver</title>
 </head>
@@ -35,30 +58,56 @@
     <span class="loader"><span class="loader-inner"></span></span>
   </div>
 
-  <!-- background -->
-  <div class="backgroundimg">
-    <img src="public/imgs/background.jpg">
-  </div>
-
   <!-- whatsappicon -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-  <a href="https://api.whatsapp.com/send?phone=541126807156&text=Hola,%20te%20contacto%20desde%20la%20WEB.%20Quisiera%20viajar%20a..."
+  <a href="https://api.whatsapp.com/send?phone=541126807156&text=Hola,%20te%20contacto%20desde%20la%20WEB.%20Quisiera%20viajar%20desde...%20hasta...%20%C2%BFCosto?"
     class="float" target="_blank">
     <i class="fa fa-whatsapp my-float"></i>
   </a>
 
-  <!-- navbar -->
+  <!-- Hamburguesa -->
+  <div class="menu-wrap">
+    <input type="checkbox" class="toggler">
+    <div class="hamburger">
+      <div></div>
+    </div>
+    <div class="menu">
+      <div>
+        <div>
+          <ul>
+            <li><a class="fwhite phone" href="tel:+54 9 11 26807156"><i class="fas fa-mobile"></i> +54 9 11 26807156</a>
+            </li>
+            <li><a class="fwhite mail" href="mailto:rufinovarela@gmail.com"><i class="fas fa-envelope"></i>
+                rufinovarela@gmail.com</a></li>
+            <!-- <li class="flags"><a class="fwhite money" href="./index_english.html"><img src="public/imgs/usa.png" alt="">
+                English</a></li> -->
+            <li class="flags"><a class="fwhite money" href="./index.html"><img src="public/imgs/spain.png" alt="">
+                Español</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- navbar top -->
   <div class="container-fluid">
-    <div class="row menu">
+    <div class="row menu-nav">
       <div class="col-sm-12">
-        <div class="logo rmp fwhite"> Rufo Driver - Trip and Tours</div>
+        <!-- Rufo Driver -->
+        <div class="logo rmp fwhite"> Rufo Driver - Trips & Tours</div>
+        <!-- Clock -->
+        <div id="txt" class="reloj"></div>
+        <!-- Botones -->
         <nav class="navbar">
           <ul class="text-center rmp">
             <li><a class="fwhite phone" href="/"><i class="fas fa-mobile"></i> +54 9 11 26807156</a></li>
             <li><a class="fwhite mail" href="/"><i class="fas fa-envelope"></i> rufinovarela@gmail.com</a></li>
-            <li><a class="fwhite money" href="/"><i class="fas fa-dollar-sign"></i> Price your trip</a></li>
-            <li class="flags"><a class="fwhite money" href="./index_english.html"><img src="public/imgs/usa.png" alt=""> English</a></li>
-            <li class="flags"><a class="fwhite money" href="./index.html"><img src="public/imgs/spain.png" alt=""> Español</a></li>
+            <li><a class="fwhite money" href="/"><i class="fas fa-dollar-sign"></i> Price your trip.</a></li>
+            <!-- <li class="flags"><a class="fwhite money" href="./index_english.html"><img src="public/imgs/usa.png" alt="">
+                English</a></li> -->
+            <li class="flags"><a class="fwhite money" href="./index.html"><img src="public/imgs/spain.png" alt="">
+                Español</a></li>
           </ul>
         </nav>
       </div>
@@ -70,6 +119,94 @@
     </div>
   </div>
 
+  <!-- Introduccion -->
+  <div class="container-fluid">
+    <div class="row" style="height: 10vh">
+      <div class="col-sm-12 banner bwhite d-flex justify-content-center align-items-center flex-column">
+        <p class="">Medium and long distance transfers.</p>
+        <br>
+        <p class="">Buenos Aires</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-5 formulario">
+        <!-- Formulario -->
+        <form action="./success_ingles.html" netlify>
+          <div class="card border-primary rounded-0">
+            <div class="card-header p-0">
+              <div class="bg-info text-white bblack text-center py-2">
+                <h3><i class="fa fa-envelope"></i> Price your trip.</h3>
+              </div>
+            </div>
+            <div class="card-body p-3">
+              <!--Body-->
+              <div class="form-group">
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
+                  </div>
+                  <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Name"
+                    required>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
+                  </div>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="yourmail@gmail.com"
+                    required>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-comment text-info"></i></div>
+                  </div>
+                  <textarea class="form-control" placeholder="Send your message" required></textarea>
+                </div>
+              </div>
+              <div class="text-center">
+                <input type="submit" value="Send" class="btn btn-info btn-block rounded-0 py-2">
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <!-- navbar bottom -->
+  <div class="footer container-fluid">
+    <div class="row menu-footer">
+      <div class="col-sm-12">
+        <div class="logo rmp fwhite"> Rufo Driver - Trip and Tours</div>
+        <nav class="navbar-bottom">
+          <ul class="text-center rmp">
+            <li><a class="fwhite phone" href="/"><i class="fas fa-mobile"></i> +54 9 11 26807156</a></li>
+            <li><a class="fwhite mail" href="/"><i class="fas fa-envelope"></i> rufinovarela@gmail.com</a></li>
+            <li><a class="fwhite money" href="/"><i class="fas fa-dollar-sign"></i> Price your trip</a></li>
+            <!-- <li class="flags"><a class="fwhite money" href="./index_english.html"><img src="public/imgs/usa.png" alt="">
+                English</a></li> -->
+            <li class="flags"><a class="fwhite money" href="./index.html"><img src="public/imgs/spain.png" alt="">
+                Español</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="row" style="padding-top: 10vh;">
+      <div class="col-sm-6 bwhite">
+      </div>
+      <div class="col-sm-6 bwhite"></div>
+    </div>
+  </div>
 
 
 
