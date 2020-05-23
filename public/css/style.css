@@ -47,6 +47,7 @@
 
 body {
     font-family: 'Abril Fatface';
+    background-color: #294941;
 }
 
 
@@ -86,6 +87,17 @@ body {
         display: none;
     }
     
+    .flags img {
+        width: 7px;
+    }
+
+    .flags a {
+        font-size: 0.6rem !important;
+    }
+
+    .logo{
+        font-size: 0.7rem;
+    }
 
     /* show it on small screens */
 }
