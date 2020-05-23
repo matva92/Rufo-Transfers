@@ -49,7 +49,7 @@ body {
     font-family: 'Abril Fatface';
     background-color: white;
     height: 100vh;
-    background-image: url(/public/imgs/background.jpg);
+    background-image: url(../imgs/background.jpg);
     background-size: cover;
     background-position: center;    
     background-repeat: repeat;    
