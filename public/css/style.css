@@ -196,8 +196,8 @@ form {
     margin-top: 20%;
 }
 
-form .card {
-    border: none;
+form .card, form input {
+    border: none !important;
 }
 
 form .fa-comment, form .fa-envelope, form .fa-user {
