@@ -11,10 +11,16 @@
 	font-size: 35px;
 	/* box-shadow: px 1px 1px #999; */
 	z-index: 8;
+	opacity: .5;
+	transition: opacity 0.5s ease;
 }
 
-.float:visited{
+.float:visited {
 	color: white;
+}
+
+.float:hover {
+	opacity: 1;
 }
 
 .my-float {

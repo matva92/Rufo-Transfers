@@ -27,6 +27,25 @@
   <!-- FONTAWESOME -->
   <script src="https://kit.fontawesome.com/2c14e4bbc6.js" crossorigin="anonymous"></script>
 
+  <!-- Clock -->
+  <script>
+    function startTime() {
+      var today = new Date();
+      var h = today.getHours();
+      var m = today.getMinutes();
+      var s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('txt').innerHTML =
+      h + ":" + m + ":" + s;
+      var t = setTimeout(startTime, 500);
+    }
+    function checkTime(i) {
+      if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+      return i;
+    }
+    </script>
+
   <title>Rufo Driver</title>
 </head>
 
@@ -37,23 +56,47 @@
     <span class="loader"><span class="loader-inner"></span></span>
   </div>
 
-  <!-- background -->
-  <!-- <div class="backgroundimg">
-    <img src="public/imgs/background.jpg">
-  </div> -->
-
   <!-- whatsappicon -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-  <a href="https://api.whatsapp.com/send?phone=541126807156&text=Hola,%20te%20contacto%20desde%20la%20WEB.%20Quisiera%20viajar%20a..."
+  <a href="https://api.whatsapp.com/send?phone=541126807156&text=Hola,%20te%20contacto%20desde%20la%20WEB.%20Quisiera%20viajar%20desde...%20hasta...%20%C2%BFCosto?"
     class="float" target="_blank">
     <i class="fa fa-whatsapp my-float"></i>
   </a>
+  
+  <!-- Hamburguesa -->
+    <div class="menu-wrap">
+      <input type="checkbox" class="toggler">
+      <div class="hamburger">
+        <div></div>
+      </div>
+      <div class="menu">
+        <div>
+          <div>
+            <ul>
+              <li><a class="fwhite phone" href="tel:+54 9 11 26807156"><i class="fas fa-mobile"></i> +54 9 11 26807156</a>
+              </li>
+              <li><a class="fwhite mail" href="mailto:rufinovarela@gmail.com"><i class="fas fa-envelope"></i>
+                  rufinovarela@gmail.com</a></li>
+              <li class="flags"><a class="fwhite money" href="./index_english.html"><img src="public/imgs/usa.png" alt="">
+                  English</a></li>
+              <li class="flags"><a class="fwhite money" href="./index.html"><img src="public/imgs/spain.png" alt="">
+                  Español</a></li>
+  
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <!-- navbar top -->
   <div class="container-fluid">
     <div class="row menu-nav">
       <div class="col-sm-12">
+        <!-- Rufo Driver -->
         <div class="logo rmp fwhite"> Rufo Driver - Traslados y Tours</div>
+        <!-- Clock -->
+        <div id="txt" class="reloj"></div>
+        <!-- Botones -->
         <nav class="navbar">
           <ul class="text-center rmp">
             <li><a class="fwhite phone" href="/"><i class="fas fa-mobile"></i> +54 9 11 26807156</a></li>
@@ -74,28 +117,11 @@
     </div>
   </div>
 
-
-<!-- Hamburguesa -->
-  <div class="menu-wrap">
-    <input type="checkbox" class="toggler">
-    <div class="hamburger">
-      <div></div>
-    </div>
-    <div class="menu">
-      <div>
-        <div>
-          <ul>
-            <li><a class="fwhite phone" href="tel:+54 9 11 26807156"><i class="fas fa-mobile"></i> +54 9 11 26807156</a>
-            </li>
-            <li><a class="fwhite mail" href="mailto:rufinovarela@gmail.com"><i class="fas fa-envelope"></i>
-                rufinovarela@gmail.com</a></li>
-            <li class="flags"><a class="fwhite money" href="./index_english.html"><img src="public/imgs/usa.png" alt="">
-                English</a></li>
-            <li class="flags"><a class="fwhite money" href="./index.html"><img src="public/imgs/spain.png" alt="">
-                Español</a></li>
-
-          </ul>
-        </div>
+  <!-- Introduccion -->
+  <div class="container-fluid">
+    <div class="row" style="height: 10vh">
+      <div class="col-sm-12 banner bwhite d-flex justify-content-center align-items-center flex-column">
+        <p class="">Traslados PREMIUM de media y larga distancia.</p>
       </div>
     </div>
   </div>
