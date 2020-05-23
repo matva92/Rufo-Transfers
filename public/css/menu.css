@@ -4,6 +4,7 @@
     right: 0;
     z-index: 150;
     display: none;
+
 }
 
 .menu-wrap .toggler {
@@ -104,6 +105,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: rgba(34, 37, 44, 0.63);
     
 }
 
@@ -135,6 +137,7 @@
     padding: 1rem;
 }
 
+
 .menu-wrap .menu > div > div > ul > li > a {
     color: inherit;
     text-decoration: none;
@@ -153,7 +156,7 @@
 
 
 /*MEDIA SCREEN*/
-@media screen and (min-width: 0px) and (max-width: 733px) {
+@media screen and (min-width: 0px) and (max-width: 1051px) {
  
     .menu-wrap {
         display: inline-block;

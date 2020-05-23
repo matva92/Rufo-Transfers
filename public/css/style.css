@@ -47,7 +47,12 @@
 
 body {
     font-family: 'Abril Fatface';
-    background-color: #294941;
+    background-color: white;
+    height: 100vh;
+    background-image: url(/public/imgs/background.jpg);
+    background-size: cover;
+    background-position: center;    
+    background-repeat: repeat;    
 }
 
 
@@ -77,14 +82,23 @@ body {
     transform: translateY(-50%);
 }
 
-.navbar li {
+.navbar-bottom {
+    padding: 0;
+    position: absolute;
+    bottom: 50%;
+    right: 2%;
+    transform: translateY(50%);
+}
+
+.navbar li, .navbar-bottom li {
     list-style: none;
     display: inline-block;
 }
 
 
 
-.navbar li a {
+.navbar li a,
+.navbar-bottom li a  {
     text-decoration: none;
     margin-left: 1rem;
     padding-bottom: 3px;
@@ -92,7 +106,8 @@ body {
     transition: border-bottom 0.1s;
 }
 
-.navbar li a:hover {
+.navbar li a:hover,
+.navbar-bottom li a:hover  {
     border-bottom: 4px solid #Fff;
     ;
     color: white;
@@ -114,7 +129,7 @@ body {
     padding: 7px !important;
 }
 
-.menu {
+.menu-nav {
     z-index: 9;
     height: 10vh;
     position: fixed;
@@ -130,6 +145,23 @@ body {
     width: 15px;
 }
 
+
+.footer {
+    position: absolute;
+    bottom: 0;
+}
+
+.menu-footer {
+    z-index: 1;
+    height: 10vh;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgb(38, 37, 49);
+    background: linear-gradient(90deg, rgba(38, 37, 49, 1) 0%, #2b3b38 53%, #1d2544 100%);
+    box-shadow: 0px 5px 5px -7px #Fff;
+    opacity: .8;
+}
 
 
 /*Animaciones*/
@@ -163,16 +195,18 @@ i:hover {
 }
 
 /*MEDIA SCREEN*/
-@media screen and (min-width: 0px) and (max-width: 733px) {
+@media screen and (min-width: 0px) and (max-width: 1051px) {
  
-    .navbar li {
+    .navbar li,
+    .navbar-bottom li {
         display: none !important;
     }
 
-
-    .logo {
-        font-size: 0.9rem;
+    .footer {
+        display: none;
     }
+
+
 
     /* show it on small screens */
 }
