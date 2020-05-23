@@ -1,0 +1,283 @@
+/* Floated Elements */
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+/* Aligning Elements */
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-just {
+    text-align: justify;
+}
+
+.align-top {
+    vertical-align: top;
+}
+
+.align-bottom {
+    vertical-align: bottom;
+}
+
+.align-middle {
+    vertical-align: middle;
+}
+
+/* Visibility Classes */
+
+.hide-on-small {
+    display: none;
+}
+
+.show-in-large {
+    display: block;
+}
+
+/* Typography */
+
+.bold {
+    font-weight: bold;
+}
+
+.regular {
+    font-weight: normal;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.ell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.break-word {
+    word-wrap: break-word;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
+
+
+/* Width and Height */
+
+.fit {
+    max-width: 100%;
+}
+
+.half-width {
+    width: 50%
+}
+
+.full-width {
+    width: 100%;
+}
+
+.full-height {
+    height: 100%;
+}
+
+/* Position and Z-index */
+
+.fixed {
+    position: fixed;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.static {
+    position: static;
+}
+
+.zindex-1 {
+    z-index: 1;
+}
+
+.zindex-2 {
+    z-index: 2;
+}
+
+.zindex-3 {
+    z-index: 3;
+}
+
+.pin-top-right {
+    top: 0;
+    right: 0;
+}
+
+.pin-bottom-right {
+    bottom: 0;
+    right: 0;
+}
+
+/* Display Values */
+
+.inline {
+    display: inline;
+}
+
+.block {
+    display: block;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.hide {
+    display: none;
+}
+
+.flex {
+    display: flex;
+}
+
+
+/*Colors*/
+
+.fred {
+    color: red;
+}
+
+.fwhite {
+    color: white;
+}
+
+.fblue {
+    color: blue
+}
+
+.forange {
+    color: orange
+}
+
+.fyellow {
+    color: yellow
+}
+
+.fpurple {
+    color: purple
+}
+
+.fmagenta {
+    color: magenta
+}
+
+.fgreen {
+    color: green;
+}
+
+.fgray {
+    color: gray;
+}
+
+.bred {
+    background-color: red;
+}
+
+.bwhite {
+    background-color: white;
+}
+
+.bblue {
+    background-color: blue
+}
+
+.borange {
+    background-color: orange
+}
+
+.byellow {
+    background-color: yellow
+}
+
+.bpurple {
+    background-color: purple
+}
+
+.bmagenta {
+    background-color: magenta;
+}
+
+.bgreen {
+    background-color: green;
+}
+
+.bgray {
+    background-color: gray;
+}
+
+/* Borders */
+
+.border {
+    border-color: black !important;
+    border-width: 2px !important;
+}
+
+/*borde circular*/
+.cradius {
+    border-radius: 4rem;
+    padding: 1rem;
+    font-size: 0.8rem;
+}
+
+/*Line Height*/
+
+.line1 {
+    line-height: 1.3rem;
+}
+
+.center {
+    margin: 0.7rem auto;
+    width: 40%;
+    text-align: center;
+}
+
+
+/*reset margin and padding*/
+.rmp {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/*margin1*/
+.margin1 {
+    margin: 1rem;
+}
+
+/*1/4 de with*/
+.wquarter{
+    width: 25%;
+}
+
+
+/*border decoration*/
+.borderbottom {
+    padding-bottom: 3px;
+    border-bottom: 4px solid white;
+}
