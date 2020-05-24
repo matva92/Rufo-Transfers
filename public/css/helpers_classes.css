@@ -40,6 +40,11 @@
 
 /* Visibility Classes */
 
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+}
+
 .hide-on-small {
     display: none;
 }

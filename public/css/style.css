@@ -204,6 +204,8 @@ body {
 
 .formulario {
     margin: auto;
+    /* display: none; */
+    transition: visibility 0s, opacity 0.5s linear;
 }
 
 form {

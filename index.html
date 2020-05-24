@@ -67,7 +67,7 @@
 
   <!-- Hamburguesa -->
   <div class="menu-wrap">
-    <input type="checkbox" class="toggler">
+    <input type="checkbox" id="toggler" class="toggler">
     <div class="hamburger">
       <div></div>
     </div>
@@ -79,10 +79,9 @@
             </li>
             <li><a class="fwhite mail" href="mailto:rufinovarela@gmail.com"><i class="fas fa-envelope"></i>
                 rufinovarela@gmail.com</a></li>
+            <li><a class="fwhite money cotizar2" href="#"><i class="fas fa-dollar-sign"></i> Cotizá tu viaje</a></li>
             <li class="flags"><a class="fwhite money" href="./index_english.html"><img src="public/imgs/usa.png" alt="">
                 English</a></li>
-            <!-- <li class="flags"><a class="fwhite money" href="./index.html"><img src="public/imgs/spain.png" alt="">
-                Español</a></li> -->
 
           </ul>
         </div>
@@ -101,9 +100,11 @@
         <!-- Botones -->
         <nav class="navbar">
           <ul class="text-center rmp">
-            <li><a class="fwhite phone" href="/"><i class="fas fa-mobile"></i> +54 9 11 26807156</a></li>
-            <li><a class="fwhite mail" href="/"><i class="fas fa-envelope"></i> rufinovarela@gmail.com</a></li>
-            <li><a class="fwhite money" href="/"><i class="fas fa-dollar-sign"></i> Cotizá tu viaje</a></li>
+            <li><a class="fwhite phone" href="tel:+54 9 11 26807156"><i class="fas fa-mobile"></i> +54 9 11 26807156</a>
+            </li>
+            <li><a class="fwhite mail" href="mailto:rufinovarela@gmail.com"><i class="fas fa-envelope"></i>
+                rufinovarela@gmail.com</a></li>
+            <li><a class="fwhite money cotizar" href="#"><i class="fas fa-dollar-sign"></i> Cotizá tu viaje</a></li>
             <li class="flags"><a class="fwhite money" href="./index_english.html"><img src="public/imgs/usa.png" alt="">
                 English</a></li>
             <!-- <li class="flags"><a class="fwhite money" href="./index.html"><img src="public/imgs/spain.png" alt="">
@@ -124,22 +125,22 @@
     <div class="row">
       <div
         class="col-xm-12 col-sm-12 col-md-12 col-lg-12 banner bwhite d-flex justify-content-center align-items-center flex-column">
-        <p class="">Traslados PREMIUM de media y larga distancia.</p>
+        <p class="">Traslados de media y larga distancia.</p>
         <br>
         <p class="">Buenos Aires - Argentina</p>
       </div>
     </div>
   </div>
 
+  <!-- Formulario -->
   <div class="container-fluid">
     <div class="row row-form">
-      <div class="col-xm-10 col-sm-6 col-md-6 col-lg-6 formulario">
-        <!-- Formulario -->
+      <div class="col-xm-10 col-sm-6 col-md-6 col-lg-4 formulario hidden">
         <form action="./success_español.html" netlify>
           <div class="card border-primary rounded-0">
             <div class="card-header p-0">
               <div class="bg-info text-white bblack text-center py-2">
-                <h3><i class="fa fa-envelope"></i> Cotizá tu viaje</h3>
+                <h3><i class="fa fa-envelope"></i>Cotizá tu viaje</h3>
               </div>
             </div>
             <div class="card-body p-3">
@@ -176,7 +177,6 @@
             </div>
           </div>
         </form>
-
       </div>
     </div>
 
@@ -221,7 +221,7 @@
   </script>
   <script src="bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
   <script src="public/css/loader.js"></script>
-
+  <script src="/formulario_toggle.js"></script>
 </body>
 
 </html>
