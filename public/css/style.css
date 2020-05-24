@@ -130,11 +130,12 @@ body {
     text-transform: uppercase;
     transition: color 0.5s, background-color 0.5s, padding 0.5s;
     border-radius: 100px;
+    color: white;
 }
 
 .logo:hover {
     background-color: white;
-    color: #1d2544;
+    color: black !important;
     padding: 7px !important;
 }
 
