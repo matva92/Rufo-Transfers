@@ -50,20 +50,24 @@ body {
     background-color: white;
     height: 100vh;
     background-image: url(../imgs/background.jpg);
-    background-size: cover;
+    /* background-size: cover; */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     background-position: center;
-    background-repeat: repeat;
+    background-repeat: no-repeat;
 }
 
 .reloj {
     color: white;
-    left: 50%;
+    left: 40%;
     position: absolute;
     top: 50%;
     transform: translate(-50%,-50%);
     text-transform: uppercase;
     z-index: 400;
     font-size: 1.1rem;
+    display: none;
 }
 
 .backgroundimg {
@@ -143,7 +147,7 @@ body {
 
 .menu-nav {
     z-index: 9;
-    height: 10vh;
+    height: 15vh;
     position: fixed;
     top: 0;
     width: 100%;
@@ -182,21 +186,29 @@ body {
 .banner {
     transition: color .2s ease-in, background-color 0.5s ease-in;
     font-size: 1rem;
+    padding: 2vh;
+    margin:auto;
+    display: flex;
+    text-align: center;
 }
 
 .banner:hover {
-    background-color: black !important;
+    background-color: rgb(37, 37, 37) !important;
     color: white;
 }
 
 /* Formulario */
+
+.row-form{
+    margin-top: 8vh;
+}
 
 .formulario {
     margin: auto;
 }
 
 form {
-    margin-top: 20%;
+    /* margin-top: 20%; */
 }
 
 form .card, form input {
@@ -270,6 +282,9 @@ i:hover {
      display: none;
     }
 
+    .logo{
+        font-size: 1.5rem;
+    }
 
     /* show it on small screens */
 }
