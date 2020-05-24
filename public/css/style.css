@@ -220,7 +220,7 @@ form {
     /* margin-top: 20%; */
 }
 
-form .card, form input {
+form .card {
     border: none !important;
 }
 
