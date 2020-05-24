@@ -1,6 +1,6 @@
 :root {
     --primary-color: rgba(13,110,139,0.5);
-    --overlay-color: rgba(24,39,51,0.1);
+    --overlay-color: rgba(24,39,51,0.7);
     --menu-speed: 0.75s;
 }
 
@@ -159,9 +159,6 @@
 .menu li.flags a{
     font-size: 1.2rem !important;
 }
-
-
-
 
 /*MEDIA SCREEN*/
 @media screen and (min-width: 0px) and (max-width: 1051px) {
