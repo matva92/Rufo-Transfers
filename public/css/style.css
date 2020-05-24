@@ -50,11 +50,9 @@ body {
     background-color: white;
     height: 100vh;
     background-image: url(../imgs/background.jpg);
-    /* background-size: cover; */
-    background-size: initial;
-    /* -webkit-background-size: cover;
+    -webkit-background-size: cover;
     -moz-background-size: cover;
-    -o-background-size: cover; */
+    -o-background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
