@@ -258,6 +258,12 @@ body {
     opacity: 0.7;
   }
 
+/* recpatcha */
+
+.rc-anchor {
+    width: 87.5;
+}
+
   /* Boton Cerrar formulario */
 
 .close {
