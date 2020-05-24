@@ -46,7 +46,7 @@
 /*body inicio*/
 
 body {
-    font-family: 'Abril Fatface';
+    font-family: 'Questrial', sans-serif;
     background-color: white;
     height: 100vh;
     background-image: url(../imgs/background.jpg);
@@ -63,7 +63,7 @@ body {
     transform: translate(-50%,-50%);
     text-transform: uppercase;
     z-index: 400;
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 
 .backgroundimg {
@@ -131,6 +131,8 @@ body {
     transition: color 0.5s, background-color 0.5s, padding 0.5s;
     border-radius: 100px;
     color: white;
+    font-size: 1.5rem;
+    font-family: 'Ubuntu';
 }
 
 .logo:hover {
@@ -179,7 +181,7 @@ body {
 
 .banner {
     transition: color .2s ease-in, background-color 0.5s ease-in;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .banner:hover {
