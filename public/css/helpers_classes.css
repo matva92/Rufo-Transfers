@@ -40,6 +40,22 @@
 
 /* Visibility Classes */
 
+.o1 {
+    opacity: 1;
+}
+.o5 {
+    opacity: 0.5;
+}
+
+.o75 {
+    opacity: 0.75;
+}
+
+.o25 {
+    opacity: 0.25;
+}
+
+
 .hidden {
     visibility: hidden;
     opacity: 0;
@@ -239,6 +255,10 @@
 
 .bblack {
     background-color: black !important;
+}
+
+.btransparent {
+    background-color: transparent !important;
 }
 
 /* Borders */
