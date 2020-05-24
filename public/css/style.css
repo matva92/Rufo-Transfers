@@ -146,7 +146,7 @@ body {
 
 .menu-nav {
     z-index: 9;
-    height: 15vh;
+    height:  108.35px;
     position: fixed;
     top: 0;
     width: 100%;
@@ -170,7 +170,7 @@ body {
 
 .menu-footer {
     z-index: 1;
-    height: 10vh;
+    height: 108.35px;
     position: absolute;
     bottom: 0;
     width: 100%;
