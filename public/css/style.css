@@ -204,6 +204,7 @@ body {
     margin: auto;
     right: 5%;
     top: 1%;
+    cursor: pointer;
 }
 
 .row-form{
