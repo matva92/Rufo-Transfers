@@ -8,3 +8,8 @@ $("li .cotizar2").click(function() {
     $(".formulario").toggleClass("hidden");
     $(".toggler").prop("checked", false);
 });
+
+$(".close").click(function() {  
+    // console.log("testing");
+    $(".formulario").toggleClass("hidden");
+});

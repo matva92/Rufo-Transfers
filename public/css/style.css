@@ -198,6 +198,14 @@ body {
 
 /* Formulario */
 
+.close {
+    position: absolute;
+    color: white !important;
+    margin: auto;
+    right: 5%;
+    top: 1%;
+}
+
 .row-form{
     margin-top: 8vh;
 }
