@@ -16,7 +16,7 @@
 
 .menu-wrap .toggler {
     position: fixed;
-    top: 0;
+    /* top: 0; */
     right: 0;
     z-index: 151;
     cursor: pointer;
