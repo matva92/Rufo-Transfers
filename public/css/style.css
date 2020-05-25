@@ -157,6 +157,27 @@ body {
     transform: translateY(-50%);
     left: 5.2%;
 }
+
+.rss {
+    /* color: white; */
+    position: absolute;
+    top: 10%;
+    left: 8%;
+}
+
+.rss a {
+    font-size: 1.1rem;
+    color: white;
+    margin: 3px;
+    transition: font-size 0.2s ease-in;
+}
+
+.rss a:hover {
+    font-size: 1.3rem;
+}
+
+
+
 .menu-nav {
     z-index: 9;
     height:  108.35px;

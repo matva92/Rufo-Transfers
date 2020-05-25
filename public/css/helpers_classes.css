@@ -263,8 +263,13 @@
 
 /* Borders */
 
-.border {
+.borderb {
     border-color: black !important;
+    border-width: 2px !important;
+}
+
+.borderw {
+    border-color:white !important;
     border-width: 2px !important;
 }
 
