@@ -52,7 +52,7 @@ html {
 body {
     font-family: 'Questrial', sans-serif;
     background-color: white;
-    background-image: url(../imgs/background.jpg);
+    background-image: url(../imgs/background.webp);
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -119,7 +119,7 @@ body {
     margin-left: 1rem;
     padding-bottom: 3px;
     font-size: 0.9rem;
-    transition: border-bottom 0.1s;
+    transition: border-bottom 0.2s;
 }
 
 .navbar li a:hover,
