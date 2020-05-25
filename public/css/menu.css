@@ -139,8 +139,9 @@
 .menu-wrap .menu>div>div>ul>li {
     list-style: none;
     color: white;
-    font-size: 1.3rem;
-    padding: 1rem;
+    font-size: 1rem;
+    padding: 1rem 0;
+    
 }
 
 
