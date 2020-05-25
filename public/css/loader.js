@@ -3,6 +3,6 @@ $(window).on("load", function () {
     // startTime()
     setTimeout(function () {
         $(".loader-wrapper").fadeOut("slow")
-    }, 400);
+    }, 250);
 
 });
