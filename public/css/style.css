@@ -161,12 +161,12 @@ body {
 .rss {
     /* color: white; */
     position: absolute;
-    top: 10%;
-    left: 8%;
+    top: 70%;
+    left: 4.9%;
 }
 
 .rss a {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     color: white;
     margin: 3px;
     transition: font-size 0.2s ease-in;
