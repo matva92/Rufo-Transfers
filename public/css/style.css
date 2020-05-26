@@ -65,7 +65,7 @@ body {
     left: 40%;
     position: absolute;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     text-transform: uppercase;
     z-index: 400;
     font-size: 1.1rem;
@@ -179,7 +179,7 @@ body {
 
 .menu-nav {
     z-index: 9;
-    height:  108.35px;
+    height: 108.35px;
     position: fixed;
     top: 0;
     width: 100%;
@@ -187,6 +187,7 @@ body {
     background: linear-gradient(90deg, rgba(38, 37, 49, 1) 0%, #2b3b38 50%, rgba(38, 37, 49, 1) 100%);
     /* box-shadow: 0px 5px 3px -7px #Fff; */
     opacity: 1;
+    /* animation: change 10s ease-in-out infinite; */
 }
 
 .flags img {
@@ -219,7 +220,7 @@ body {
     transition: color .2s ease-in, background-color 0.5s ease-in;
     font-size: 1.2rem;
     padding: 2vh;
-    margin:auto;
+    margin: auto;
     display: flex;
     text-align: center;
 }
@@ -231,7 +232,7 @@ body {
 
 /* Formulario */
 
-.descripcion{
+.descripcion {
 
     font-size: 1.1rem;
     line-height: 1.2rem;
@@ -247,15 +248,15 @@ body {
     max-width: 300px;
     margin: auto;
     text-align: center;
-    
-  }
-  
-  .title {
+
+}
+
+.title {
     color: grey;
     font-size: 18px;
-  }
-  
-  button {
+}
+
+button {
     border: none;
     outline: 0;
     display: inline-block;
@@ -266,17 +267,18 @@ body {
     cursor: pointer;
     width: 100%;
     font-size: 18px;
-  }
-  
-  a {
+}
+
+a {
     text-decoration: none;
     font-size: 22px;
     color: black;
-  }
-  
-  button:hover, a:hover {
+}
+
+button:hover,
+a:hover {
     opacity: 0.7;
-  }
+}
 
 /* recpatcha */
 
@@ -284,7 +286,7 @@ body {
     width: 87.5% !important;
 }
 
-  /* Boton Cerrar formulario */
+/* Boton Cerrar formulario */
 
 .close {
     position: absolute;
@@ -295,7 +297,7 @@ body {
     cursor: pointer;
 }
 
-.row-form{
+.row-form {
     margin-top: 8vh;
 }
 
@@ -314,7 +316,9 @@ form .card {
     border: none !important;
 }
 
-form .fa-comment, form .fa-envelope, form .fa-user {
+form .fa-comment,
+form .fa-envelope,
+form .fa-user {
     color: black !important;
 }
 
@@ -324,7 +328,7 @@ form .fa-comment, form .fa-envelope, form .fa-user {
 }
 
 .btn-info:hover {
-    background-color: rgba(63, 63, 63,0.6);
+    background-color: rgba(63, 63, 63, 0.6);
     color: white;
 }
 
@@ -333,7 +337,7 @@ form .fa-comment, form .fa-envelope, form .fa-user {
 }
 
 
-.desarrollado-wrap{
+.desarrollado-wrap {
     position: relative;
     bottom: 10px;
 }
@@ -352,7 +356,7 @@ form .fa-comment, form .fa-envelope, form .fa-user {
     color: white !important;
 }
 
-.desarrollado:hover{
+.desarrollado:hover {
     opacity: 1;
 }
 
@@ -399,13 +403,30 @@ i:hover {
     }
 
     .reloj {
-     display: none;
+        display: none;
     }
 
-    .logo{
+    .logo {
         font-size: 1.5rem;
     }
 
     /* show it on small screens */
 }
 
+
+
+/* @keyframes change {
+
+    0% {
+        background: linear-gradient(90deg, rgba(38, 37, 49, 1) 0%, #2b3b38 50%, rgba(38, 37, 49, 1) 100%);
+    }
+
+    50% {
+        background: linear-gradient(90deg, rgba(38, 37, 49, 1) 0%, #2b3b38 50%, rgba(38, 37, 49, 1) 100%);
+    }
+
+    100% {
+        background: linear-gradient(90deg, rgba(38, 37, 49, 1) 0%, #2b3b38 50%, rgba(38, 37, 49, 1) 100%);
+    }
+
+} */
