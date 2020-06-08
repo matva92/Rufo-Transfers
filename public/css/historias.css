@@ -74,15 +74,18 @@ html {
     margin: 5px;
     padding: 5px;
     cursor: pointer;
+    text-align: left;
 }
 
 /* Links de historias */
 .listado-historias li a {
     text-decoration: none;
     color: white;
-    padding: 5px 50px;
+    padding: 5px;
     transition: 0.1s ease-in;
     font-size: 1rem;
+    text-align: left;
+    width: 50vw;
 }
 
 /* Animacion Links de historias */
@@ -126,6 +129,7 @@ html {
         /* text-align: justify;
         text-justify: auto; */
     white-space: pre-line;
+    font-size: 1rem;
 }
 
 .hist-contenido span {
