@@ -61,6 +61,25 @@ body {
 }
 
 
+/* Scroll */
+::-webkit-scrollbar {
+    width: 4px;
+    background: black;
+}
+
+/* Deslizador */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(161, 140, 140);
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(219, 219, 219);
+    border-radius: 10px;
+}
+
+
 .backgroundimg {
     position: relative;
     z-index: 1;
