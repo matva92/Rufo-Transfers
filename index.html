@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -60,11 +60,15 @@
   <link rel="stylesheet" href="public/css/whatsapp.css">
   <link rel="stylesheet" href="public/css/menu.css">
   <link rel="stylesheet" href="public/css/icons/icons.css">
+  <link rel="stylesheet" href="public/css/cotizador.css">
 
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Questrial&family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- LOGO PAGINA -->
   <!-- <link rel="shortcut icon" href="public/imgs/jeep.ico" type="image/x-icon"> -->
@@ -118,7 +122,6 @@
       <div>
         <div>
           <ul>
-            <li><a class="fwhite money cotizar2" href="#"><i class="fas fa-dollar-sign"></i> Cotizá tu viaje</a></li>
             <li><a class="fwhite phone" href="tel:+54 9 11 26807156"><i class="fas fa-mobile"></i> +54 9 11 26807156</a>
             </li>
             <li><a class="fwhite mail" href="mailto:rufinovarela@gmail.com"><i class="fas fa-envelope"></i>
@@ -174,13 +177,12 @@
             </li>
             <li><a class="fwhite mail" href="mailto:rufinovarela@gmail.com"><i class="fas fa-envelope"></i>
                 rufinovarela@gmail.com</a></li>
-            <li><a class="fwhite money cotizar" href="#"><i class="fas fa-dollar-sign"></i> Cotizá tu viaje</a></li>
             <li><a class="fwhite" href="/historias/">Historias</a></li>
             <li class="flags"><a class="fwhite money" href="https://rufotransfers.com/english/"><img
                   src="public/imgs/usa.png" alt="english text">
                 English</a></li>
             <!-- <li class="flags"><a class="fwhite money" href="./index.html"><img src="public/imgs/spain.png" alt="">
-                Español</a></li> -->
+                EspaÃ±ol</a></li> -->
           </ul>
         </nav>
       </div>
@@ -209,55 +211,413 @@
   <!-- Formulario -->
   <div class="container-fluid">
     <div class="row row-form">
-      <div class="col-xm-10 col-sm-6 col-md-6 col-lg-6 formulario hidden">
-        <form name="español" action="./españolgracias.html" netlify data-netlify-recaptcha="true">
-          <div class="card border-primary rounded-0">
-            <div class="card-header p-0">
-              <div class="bg-info text-white bblack text-center py-2">
-                <h3><i class="fa fa-envelope"></i> Cotizá tu viaje.<span class="close">x</span></h3>
-              </div>
-            </div>
-            <div class="card-body p-3" style="overflow: hidden">
-              <!--Body-->
-              <div class="form-group">
-                <div class="input-group mb-2">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
-                  </div>
-                  <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="input-group mb-2">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
-                  </div>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="tumail@gmail.com"
-                    required>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="input-group mb-2">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-comment text-info"></i></div>
-                  </div>
-                  <textarea class="form-control" name="message" placeholder="Enviá tu mensaje." required></textarea>
-                </div>
-              </div>
-              <div class="text-center">
-                <input type="submit" value="Enviar" class="btn btn-info btn-block rounded-0 py-2">
-              </div>
-              <div class="field" >
-                <div data-netlify-recaptcha="true" style="width: 90%;"></div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div> 
-  </div>
+    <div class="col-xm-10 col-sm-6 col-md-6 col-lg-6 formulario">
+        <div class="cotizador" data-maps-key="AIzaSyDfc5puC5-25Kc3NGhX-cFoQgb2jce92Do">
+          <form id="cotizador-form" name="español" action="/.netlify/functions/send-quote" method="POST" netlify data-netlify-recaptcha="true">
+            <input type="hidden" name="form-name" value="español">
+            <input type="hidden" name="language" id="lang-input" value="es">
+            <input type="hidden" name="currency" id="currency-input" value="ARS">
+            <input type="hidden" name="vehicle" id="vehicle-input" value="">
+            <input type="hidden" name="distance_km" id="distance-input" value="">
+            <input type="hidden" name="duration" id="duration-input" value="">
+            <input type="hidden" name="total_ars" id="total-ars-input" value="">
+            <input type="hidden" name="total_usd" id="total-usd-input" value="">
+            <input type="hidden" name="extras_summary" id="extras-input" value="">
+            <input type="hidden" name="reference" id="ref-input" value="">
 
-  <!-- Descripcion -->
+            <div class="cotizador-container">
+              <div class="header">
+                <div class="brand">
+                  <div class="brand-icon">🚘</div>
+                  <div>
+                    <div class="brand-name" data-t="brandName">Traslados</div>
+                    <div class="brand-tag" data-t="brandTag">Cotización</div>
+                  </div>
+                </div>
+                <div class="toggles">
+                  <div class="toggle-group">
+                    <button type="button" class="toggle-btn active" id="lang-es" onclick="setLang('es')">ES</button>
+                    <button type="button" class="toggle-btn" id="lang-en" onclick="setLang('en')">EN</button>
+                  </div>
+                  <div class="toggle-group">
+                    <button type="button" class="toggle-btn active" id="cur-ars" onclick="setCurrency('ARS')">ARS</button>
+                    <button type="button" class="toggle-btn" id="cur-usd" onclick="setCurrency('USD')">USD</button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="step-route" class="step active">
+                <div class="progress-bar">
+                  <div class="prog-step"><div class="prog-num active">1</div><span class="prog-label active" data-t="step1">Ruta</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">2</div><span class="prog-label" data-t="step2">Vehículo</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">3</div><span class="prog-label" data-t="step3">Datos</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">4</div><span class="prog-label" data-t="step4">Extras</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">5</div><span class="prog-label" data-t="step5">Cotización</span></div>
+                </div>
+                <div class="card">
+                  <span class="card-label" data-t="routeCardLabel">Detalle del viaje</span>
+                  <div class="field-group">
+                    <label class="field-label" data-t="originLabel">Punto de origen</label>
+                    <div class="addr-wrap">
+                      <input type="text" id="origin-input" name="origin" data-t-placeholder="originPH" autocomplete="off"/>
+                      <div class="pac-list" id="origin-list" style="display:none;"></div>
+                    </div>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="destLabel">Punto de destino</label>
+                    <div class="addr-wrap">
+                      <input type="text" id="dest-input" name="destination" data-t-placeholder="destPH" autocomplete="off"/>
+                      <div class="pac-list" id="dest-list" style="display:none;"></div>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-primary" id="btn-route" onclick="calcRoute()" disabled data-t="btnCalcRoute">Calcular ruta</button>
+                <div id="route-loading" class="loading-row"><div class="spinner"></div><span data-t="loadingRoute">Calculando ruta...</span></div>
+                <div id="route-error" class="alert alert-error" style="display:none;"></div>
+              </div>
+
+              <div id="step-options" class="step">
+                <div class="progress-bar">
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step1">Ruta</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num active">2</div><span class="prog-label active" data-t="step2">Vehículo</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">3</div><span class="prog-label" data-t="step3">Datos</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">4</div><span class="prog-label" data-t="step4">Extras</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">5</div><span class="prog-label" data-t="step5">Cotización</span></div>
+                </div>
+                <div class="card">
+                  <span class="card-label" data-t="vehicleCardLabel">Seleccioná el vehículo</span>
+                  <div class="vehicle-grid">
+                    <div class="vcard" id="vc-comun" onclick="selectVehicle('comun')">
+                      <div class="vcard-check">✓</div>
+                      <div class="vcard-icon">🚗</div>
+                      <div class="vcard-name" data-t="comunName">Común</div>
+                      <div class="vcard-model">Fiat Cronos,<br>Chevrolet Prisma o similar</div>
+                      <div class="vcard-divider"></div>
+                      <div class="vcard-luggage" data-t="comunLuggage">2 valijas de 23 kg<br>2 carry-on</div>
+                      <div class="vcard-scale" data-t="scaleMsg">⚖ Balanza a bordo</div>
+                    </div>
+                    <div class="vcard" id="vc-premium" onclick="selectVehicle('premium')">
+                      <div class="vcard-check">✓</div>
+                      <div class="vcard-icon">🚙</div>
+                      <div class="vcard-name" data-t="premiumName">Premium</div>
+                      <div class="vcard-model">Nissan Sentra Advance<br>o similar</div>
+                      <div class="vcard-divider"></div>
+                      <div class="vcard-luggage" data-t="premiumLuggage">3 valijas de 23 kg<br>2 carry-on</div>
+                      <div class="vcard-scale" data-t="scaleMsg">⚖ Balanza a bordo</div>
+                    </div>
+                  </div>
+                  <p style="font-size:12px;color:var(--text3);margin-top:12px;line-height:1.6;" data-t="scaleNote">No te preocupes antes de despachar — contamos con balanza a bordo para verificar el peso de tu equipaje sin inconvenientes.</p>
+                </div>
+                <div class="card">
+                  <span class="card-label" data-t="paxCardLabel">Pasajeros y equipaje</span>
+                  <div class="field-group">
+                    <label class="field-label" data-t="paxLabel">Pasajeros</label>
+                    <div class="counter-row">
+                      <input type="number" id="pax-input" name="passengers" min="1" max="4" value="1"/>
+                      <span class="counter-note" data-t="paxMax">Máximo 4 personas</span>
+                    </div>
+                  </div>
+                  <div class="sep"></div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="luggageLabel">Valijas totales</label>
+                    <div class="counter-row">
+                      <input type="number" id="luggage-input" name="luggage" min="0" max="10" value="0"/>
+                      <span class="counter-note" data-t="luggageNote">Cantidad de valijas</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="btn-row">
+                  <button type="button" class="btn btn-outline" onclick="goTo('step-options','step-route')" data-t="btnBack">Volver</button>
+                  <button type="button" class="btn btn-primary" id="btn-quote" onclick="goTo('step-options','step-passenger')" disabled data-t="btnContinue">Continuar</button>
+                </div>
+              </div>
+
+              <div id="step-passenger" class="step">
+                <div class="progress-bar">
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step1">Ruta</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step2">Vehículo</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num active">3</div><span class="prog-label active" data-t="step3">Datos</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">4</div><span class="prog-label" data-t="step4">Extras</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">5</div><span class="prog-label" data-t="step5">Cotización</span></div>
+                </div>
+                <div class="card">
+                  <span class="card-label" data-t="passengerCardLabel">Datos del pasajero</span>
+                  <div class="two-col">
+                    <div class="field-group">
+                      <label class="field-label" data-t="firstNameLabel">Nombre</label>
+                      <input type="text" id="p-nombre" name="first_name" data-t-placeholder="firstNamePH"/>
+                      <div class="field-error" id="err-nombre" data-t="errRequired">Campo requerido</div>
+                    </div>
+                    <div class="field-group">
+                      <label class="field-label" data-t="lastNameLabel">Apellido</label>
+                      <input type="text" id="p-apellido" name="last_name" data-t-placeholder="lastNamePH"/>
+                      <div class="field-error" id="err-apellido" data-t="errRequired">Campo requerido</div>
+                    </div>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="emailLabel">Email</label>
+                    <input type="text" id="p-email" name="email" placeholder="juan@email.com"/>
+                    <div class="field-error" id="err-email" data-t="errEmail">Email inválido</div>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="phoneLabel">Teléfono</label>
+                    <input type="text" id="p-tel" name="phone" placeholder="+54 11 1234-5678"/>
+                    <div class="field-error" id="err-tel" data-t="errRequired">Campo requerido</div>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="flightLabel">Número de vuelo <span class="optional-tag" data-t="optional">opcional</span></label>
+                    <input type="text" id="p-vuelo" name="flight_number" data-t-placeholder="flightPH"/>
+                    <p class="field-hint" data-t="flightHint">Ingresá tu número de vuelo para coordinar mejor la recogida.</p>
+                  </div>
+                </div>
+                <div class="card">
+                  <span class="card-label" data-t="scheduleCardLabel">Horarios</span>
+                  <div class="field-group">
+                    <label class="field-label" data-t="tripDateLabel">Fecha del viaje</label>
+                    <input type="date" id="p-fecha" name="trip_date" required/>
+                    <div class="field-error" id="err-fecha" data-t="errRequired">Campo requerido</div>
+                    <p class="field-hint" data-t="tripDateHint">Fecha en la que se realiza el traslado.</p>
+                  </div>
+                  <div class="sep"></div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="pickupTimeLabel">Hora de recogida</label>
+                    <input type="time" id="p-hora-recogida" name="pickup_time"/>
+                    <div class="field-error" id="err-hora" data-t="errRequired">Campo requerido</div>
+                    <p class="field-hint" data-t="pickupTimeHint">Hora en que necesitás que el vehículo esté en el punto de origen.</p>
+                  </div>
+                  <div class="sep"></div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="arrivalTimeLabel">Hora límite en destino <span class="optional-tag" data-t="optional">opcional</span></label>
+                    <input type="time" id="p-hora-destino" name="arrival_time"/>
+                    <p class="field-hint" data-t="arrivalTimeHint">Si tenés un horario límite para llegar, indicalo aquí.</p>
+                  </div>
+                </div>
+                <div class="btn-row">
+                  <button type="button" class="btn btn-outline" onclick="goTo('step-passenger','step-options')" data-t="btnBack">Volver</button>
+                  <button type="button" class="btn btn-primary" onclick="submitPassenger()" data-t="btnContinue">Continuar</button>
+                </div>
+              </div>
+
+              <div id="step-extras" class="step">
+                <div class="progress-bar">
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step1">Ruta</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step2">Vehículo</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step3">Datos</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num active">4</div><span class="prog-label active" data-t="step4">Extras</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">5</div><span class="prog-label" data-t="step5">Cotización</span></div>
+                </div>
+                <div class="card">
+                  <span class="card-label" data-t="extrasCardLabel">Servicios adicionales</span>
+                  <p style="font-size:12px;color:var(--text3);margin-bottom:1rem;line-height:1.5;" data-t="extrasNote">Todos opcionales — con costo adicional (consultar aparte). Nos ayudan a preparar mejor tu viaje.</p>
+                  <div class="extras-grid">
+
+                    <div class="extra-card" id="ex-agua" onclick="toggleExtra('agua')">
+                      <div class="extra-top">
+                        <span class="extra-icon">💧</span>
+                        <span class="extra-name" data-t="exAgua">Agua mineral</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                    </div>
+
+                    <div class="extra-card" id="ex-snacks" onclick="toggleExtra('snacks')">
+                      <div class="extra-top">
+                        <span class="extra-icon">🍫</span>
+                        <span class="extra-name" data-t="exSnacks">Snacks</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                    </div>
+
+                    <div class="extra-card has-sub" id="ex-conv">
+                      <div class="extra-top" onclick="toggleExtra('conv')">
+                        <span class="extra-icon">💬</span>
+                        <span class="extra-name" data-t="exConv">Conversación</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                      <div class="extra-sub">
+                        <select id="sel-conv" name="conversation_preference" onclick="event.stopPropagation()">
+                          <option value="si" data-t-opt="convYes">Sí, con gusto</option>
+                          <option value="no" data-t-opt="convNo">Prefiero silencio</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="extra-card has-sub" id="ex-musica">
+                      <div class="extra-top" onclick="toggleExtra('musica')">
+                        <span class="extra-icon">🎵</span>
+                        <span class="extra-name" data-t="exMusica">Música</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                      <div class="extra-sub">
+                        <select id="sel-musica" name="music_preference" onclick="event.stopPropagation()">
+                          <option value="tranquila" data-t-opt="musicSoft">Tranquila / ambiental</option>
+                          <option value="pop" data-t-opt="musicPop">Pop / variado</option>
+                          <option value="sin" data-t-opt="musicNone">Sin música</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="extra-card has-sub" id="ex-temp">
+                      <div class="extra-top" onclick="toggleExtra('temp')">
+                        <span class="extra-icon">🌡️</span>
+                        <span class="extra-name" data-t="exTemp">Temperatura</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                      <div class="extra-sub">
+                        <select id="sel-temp" name="temperature_preference" onclick="event.stopPropagation()">
+                          <option value="frio" data-t-opt="tempCold">Frío (A/C)</option>
+                          <option value="normal" data-t-opt="tempNormal">Normal</option>
+                          <option value="calor" data-t-opt="tempWarm">Calefacción</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="extra-card has-sub" id="ex-parada">
+                      <div class="extra-top" onclick="toggleExtra('parada')">
+                        <span class="extra-icon">📍</span>
+                        <span class="extra-name" data-t="exParada">Parada en ruta</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                      <div class="extra-sub" style="display:none">
+                        <input type="text" id="txt-parada" name="stop_request" data-t-placeholder="paradaPH" onclick="event.stopPropagation()" style="font-size:12px;padding:7px 10px"/>
+                      </div>
+                    </div>
+
+                    <div class="extra-card has-sub" id="ex-cargador">
+                      <div class="extra-top" onclick="toggleExtra('cargador')">
+                        <span class="extra-icon">🔌</span>
+                        <span class="extra-name" data-t="exCargador">Cargador</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                      <div class="extra-sub">
+                        <select id="sel-cargador" name="charger_type" onclick="event.stopPropagation()">
+                          <option value="usbc" data-t-opt="chargerUSBC">USB-C</option>
+                          <option value="iphone" data-t-opt="chargerIphone">iPhone (Lightning)</option>
+                          <option value="micro" data-t-opt="chargerMicro">Micro USB</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="extra-card" id="ex-bebe" onclick="toggleExtra('bebe')" style="grid-column:span 2">
+                      <div class="extra-top">
+                        <span class="extra-icon">👶</span>
+                        <span class="extra-name" data-t="exBebe">Viaja con bebé / niño pequeño</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                      <div class="extra-sub" style="font-size:11px;color:var(--text3);line-height:1.5;padding-top:4px;" data-t="exBebeNote">Se coordina la sillita infantil con anticipación. Confirmaremos disponibilidad.</div>
+                    </div>
+
+                  </div>
+
+                  <div class="sep"></div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="commentsLabel">Comentarios adicionales <span class="optional-tag" data-t="optional">opcional</span></label>
+                    <textarea id="txt-comments" name="comments" data-t-placeholder="commentsPH" rows="3"></textarea>
+                  </div>
+                </div>
+                <div class="btn-row">
+                  <button type="button" class="btn btn-outline" onclick="goTo('step-extras','step-passenger')" data-t="btnBack">Volver</button>
+                  <button type="button" class="btn btn-primary" onclick="goTo('step-extras','step-result');buildQuote()" data-t="btnViewQuote">Ver cotización</button>
+                </div>
+              </div>
+
+              <div id="step-result" class="step">
+                <div class="progress-bar">
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step1">Ruta</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step2">Vehículo</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step3">Datos</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step4">Extras</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num active">5</div><span class="prog-label active" data-t="step5">Cotización</span></div>
+                </div>
+
+                <div id="map"></div>
+
+                <div class="metrics-row">
+                  <div class="metric">
+                    <div class="metric-label" data-t="metricDist">Distancia</div>
+                    <div class="metric-value" id="r-km">—</div>
+                    <div class="metric-unit" data-t="metricKm">kilómetros</div>
+                  </div>
+                  <div class="metric">
+                    <div class="metric-label" data-t="metricPax">Pasajeros</div>
+                    <div class="metric-value" id="r-pax">—</div>
+                    <div class="metric-unit" data-t="metricPersons">personas</div>
+                  </div>
+                  <div class="metric">
+                    <div class="metric-label" data-t="metricLuggage">Equipaje</div>
+                    <div class="metric-value" id="r-luggage">—</div>
+                    <div class="metric-unit" data-t="metricSuitcases">valijas</div>
+                  </div>
+                </div>
+
+                <div class="duration-card">
+                  <span class="card-label" style="margin-bottom:6px;" data-t="durationLabel">Duración estimada</span>
+                  <div class="duration-value" id="r-time">—</div>
+                  <div class="duration-note" data-t="durationNote">Sin tráfico · origen a destino</div>
+                </div>
+
+                <div class="result-detail" id="passenger-summary"></div>
+                <div class="result-detail" id="extras-summary" style="display:none;"></div>
+
+                <div class="total-card">
+                  <div class="total-label" data-t="totalLabel">Total estimado</div>
+                  <div class="total-value" id="total-value">—</div>
+                  <div class="total-currency" id="total-currency">Pesos argentinos · ARS</div>
+                  <div class="total-rate" id="total-rate" style="display:none;"></div>
+                </div>
+
+                <div class="disclaimer" data-t="disclaimer"><strong>Este precio es un estimado.</strong> No incluye peajes ni tiempo de espera — ambos se cotizan de forma separada con el operador. El precio final se confirma al momento de la reserva.</div>
+
+                <div class="recaptcha-wrap">
+                  <div data-netlify-recaptcha="true"></div>
+                </div>
+
+                <div class="btn-row">
+                  <button type="button" class="btn btn-outline" onclick="goTo('step-result','step-extras')" data-t="btnModify">Modificar</button>
+                  <button type="submit" class="btn btn-submit" data-t="btnSubmit">Enviar solicitud al equipo de ventas</button>
+                </div>
+              </div>
+
+              <div id="step-confirm" class="step">
+                <div class="card">
+                  <div class="confirm-box">
+                    <div class="confirm-icon">✅</div>
+                    <div class="confirm-title" data-t="confirmTitle">¡Solicitud enviada!</div>
+                    <div class="confirm-sub" data-t="confirmSub">Tu solicitud fue recibida por el equipo de ventas. Te contactaremos en menos de 24 horas para confirmar los detalles de tu traslado.</div>
+                    <div class="ref-box">
+                      <div class="ref-label" data-t="refLabel">Número de referencia</div>
+                      <div class="ref-value" id="ref-number">—</div>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="location.reload()" data-t="btnNewQuote" style="max-width:260px;margin:0 auto;">Nueva cotización</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Descripcion -->
   <div class="container-fluid mt-4 mb-4">
     <div class="row justify-content-center">
       <div class="descripcion col-xm-4 col-sm-4 col-sm-4 col-md-4 col-lg-4 bwhite o75 text-center">
@@ -296,6 +656,7 @@
   </script>
   <script src="bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
   <script src="public/css/loader.js"></script>
+  <script src="js/cotizador.js"></script>
   <script src="./formulario_toggle.js"></script>
 </body>
 

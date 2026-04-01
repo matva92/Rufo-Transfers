@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -45,11 +45,15 @@
   <link rel="stylesheet" href="public/css/whatsapp.css">
   <link rel="stylesheet" href="public/css/menu.css">
   <link rel="stylesheet" href="public/css/icons/icons.css">
+  <link rel="stylesheet" href="public/css/cotizador.css">
 
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Questrial&family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- LOGO PAGINA -->
   <link rel="shortcut icon" href="public/imgs/icomo.ico" type="image/x-icon">
@@ -117,7 +121,6 @@
       <div>
         <div>
           <ul>
-            <li><a class="fwhite money cotizar2" href="#"><i class="fas fa-dollar-sign"></i> Price your trip</a></li>
             <li><a class="fwhite phone" href="tel:+54 9 11 26807156"><i class="fas fa-mobile"></i> +54 9 11 26807156</a>
             </li>
             <li><a class="fwhite mail" href="mailto:rufinovarela@gmail.com"><i class="fas fa-envelope"></i>
@@ -173,7 +176,6 @@
             </li>
             <li><a class="fwhite mail" href="mailto:rufinovarela@gmail.com"><i class="fas fa-envelope"></i>
                 rufinovarela@gmail.com</a></li>
-            <li><a class="fwhite money cotizar" href="#"><i class="fas fa-dollar-sign"></i> Price your trip</a></li>
             <li class="flags"><a class="fwhite money" href="https://www.rufotransfers.com"><img
                   src="public/imgs/spain.png" alt="texto Español">
                 Español</a></li>
@@ -203,55 +205,413 @@
   <!-- Formulario -->
   <div class="container-fluid">
     <div class="row row-form">
-      <div class="col-xm-10 col-sm-6 col-md-6 col-lg-6 formulario hidden">
-        <form name="ingles" action="./inglesgracias.html" netlify data-netlify-recaptcha="true">
-          <div class="card border-primary rounded-0">
-            <div class="card-header p-0">
-              <div class="bg-info text-white bblack text-center py-2">
-                <h3><i class="fa fa-envelope"></i> Price your trip<span class="close">x</span></h3>
+      <div class="col-xm-10 col-sm-6 col-md-6 col-lg-6 formulario">
+        <div class="cotizador" data-maps-key="AIzaSyDfc5puC5-25Kc3NGhX-cFoQgb2jce92Do">
+          <form id="cotizador-form" name="ingles" action="/.netlify/functions/send-quote" method="POST" netlify data-netlify-recaptcha="true">
+            <input type="hidden" name="form-name" value="ingles">
+            <input type="hidden" name="language" id="lang-input" value="en">
+            <input type="hidden" name="currency" id="currency-input" value="ARS">
+            <input type="hidden" name="vehicle" id="vehicle-input" value="">
+            <input type="hidden" name="distance_km" id="distance-input" value="">
+            <input type="hidden" name="duration" id="duration-input" value="">
+            <input type="hidden" name="total_ars" id="total-ars-input" value="">
+            <input type="hidden" name="total_usd" id="total-usd-input" value="">
+            <input type="hidden" name="extras_summary" id="extras-input" value="">
+            <input type="hidden" name="reference" id="ref-input" value="">
+
+            <div class="cotizador-container">
+              <div class="header">
+                <div class="brand">
+                  <div class="brand-icon">🚘</div>
+                  <div>
+                    <div class="brand-name" data-t="brandName">Transfers</div>
+                    <div class="brand-tag" data-t="brandTag">Quote</div>
+                  </div>
+                </div>
+                <div class="toggles">
+                  <div class="toggle-group">
+                    <button type="button" class="toggle-btn" id="lang-es" onclick="setLang('es')">ES</button>
+                    <button type="button" class="toggle-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+                  </div>
+                  <div class="toggle-group">
+                    <button type="button" class="toggle-btn active" id="cur-ars" onclick="setCurrency('ARS')">ARS</button>
+                    <button type="button" class="toggle-btn" id="cur-usd" onclick="setCurrency('USD')">USD</button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="step-route" class="step active">
+                <div class="progress-bar">
+                  <div class="prog-step"><div class="prog-num active">1</div><span class="prog-label active" data-t="step1">Route</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">2</div><span class="prog-label" data-t="step2">Vehicle</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">3</div><span class="prog-label" data-t="step3">Details</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">4</div><span class="prog-label" data-t="step4">Extras</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">5</div><span class="prog-label" data-t="step5">Quote</span></div>
+                </div>
+                <div class="card">
+                  <span class="card-label" data-t="routeCardLabel">Trip details</span>
+                  <div class="field-group">
+                    <label class="field-label" data-t="originLabel">Pickup location</label>
+                    <div class="addr-wrap">
+                      <input type="text" id="origin-input" name="origin" data-t-placeholder="originPH" autocomplete="off"/>
+                      <div class="pac-list" id="origin-list" style="display:none;"></div>
+                    </div>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="destLabel">Drop-off location</label>
+                    <div class="addr-wrap">
+                      <input type="text" id="dest-input" name="destination" data-t-placeholder="destPH" autocomplete="off"/>
+                      <div class="pac-list" id="dest-list" style="display:none;"></div>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-primary" id="btn-route" onclick="calcRoute()" disabled data-t="btnCalcRoute">Calculate route</button>
+                <div id="route-loading" class="loading-row"><div class="spinner"></div><span data-t="loadingRoute">Calculating route...</span></div>
+                <div id="route-error" class="alert alert-error" style="display:none;"></div>
+              </div>
+
+              <div id="step-options" class="step">
+                <div class="progress-bar">
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step1">Route</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num active">2</div><span class="prog-label active" data-t="step2">Vehicle</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">3</div><span class="prog-label" data-t="step3">Details</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">4</div><span class="prog-label" data-t="step4">Extras</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">5</div><span class="prog-label" data-t="step5">Quote</span></div>
+                </div>
+                <div class="card">
+                  <span class="card-label" data-t="vehicleCardLabel">Select vehicle</span>
+                  <div class="vehicle-grid">
+                    <div class="vcard" id="vc-comun" onclick="selectVehicle('comun')">
+                      <div class="vcard-check">✓</div>
+                      <div class="vcard-icon">🚗</div>
+                      <div class="vcard-name" data-t="comunName">Standard</div>
+                      <div class="vcard-model">Fiat Cronos,<br>Chevrolet Prisma or similar</div>
+                      <div class="vcard-divider"></div>
+                      <div class="vcard-luggage" data-t="comunLuggage">2 x 23 kg bags<br>2 carry-ons</div>
+                      <div class="vcard-scale" data-t="scaleMsg">⚖ Scale on board</div>
+                    </div>
+                    <div class="vcard" id="vc-premium" onclick="selectVehicle('premium')">
+                      <div class="vcard-check">✓</div>
+                      <div class="vcard-icon">🚙</div>
+                      <div class="vcard-name" data-t="premiumName">Premium</div>
+                      <div class="vcard-model">Nissan Sentra Advance<br>or similar</div>
+                      <div class="vcard-divider"></div>
+                      <div class="vcard-luggage" data-t="premiumLuggage">3 x 23 kg bags<br>2 carry-ons</div>
+                      <div class="vcard-scale" data-t="scaleMsg">⚖ Scale on board</div>
+                    </div>
+                  </div>
+                  <p style="font-size:12px;color:var(--text3);margin-top:12px;line-height:1.6;" data-t="scaleNote">Don't worry before checking in — we have a scale on board to verify your luggage weight if needed.</p>
+                </div>
+                <div class="card">
+                  <span class="card-label" data-t="paxCardLabel">Passengers & luggage</span>
+                  <div class="field-group">
+                    <label class="field-label" data-t="paxLabel">Passengers</label>
+                    <div class="counter-row">
+                      <input type="number" id="pax-input" name="passengers" min="1" max="4" value="1"/>
+                      <span class="counter-note" data-t="paxMax">Maximum 4 people</span>
+                    </div>
+                  </div>
+                  <div class="sep"></div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="luggageLabel">Total bags</label>
+                    <div class="counter-row">
+                      <input type="number" id="luggage-input" name="luggage" min="0" max="10" value="0"/>
+                      <span class="counter-note" data-t="luggageNote">Number of bags</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="btn-row">
+                  <button type="button" class="btn btn-outline" onclick="goTo('step-options','step-route')" data-t="btnBack">Back</button>
+                  <button type="button" class="btn btn-primary" id="btn-quote" onclick="goTo('step-options','step-passenger')" disabled data-t="btnContinue">Continue</button>
+                </div>
+              </div>
+
+              <div id="step-passenger" class="step">
+                <div class="progress-bar">
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step1">Route</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step2">Vehicle</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num active">3</div><span class="prog-label active" data-t="step3">Details</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">4</div><span class="prog-label" data-t="step4">Extras</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">5</div><span class="prog-label" data-t="step5">Quote</span></div>
+                </div>
+                <div class="card">
+                  <span class="card-label" data-t="passengerCardLabel">Passenger details</span>
+                  <div class="two-col">
+                    <div class="field-group">
+                      <label class="field-label" data-t="firstNameLabel">First name</label>
+                      <input type="text" id="p-nombre" name="first_name" data-t-placeholder="firstNamePH"/>
+                      <div class="field-error" id="err-nombre" data-t="errRequired">Required field</div>
+                    </div>
+                    <div class="field-group">
+                      <label class="field-label" data-t="lastNameLabel">Last name</label>
+                      <input type="text" id="p-apellido" name="last_name" data-t-placeholder="lastNamePH"/>
+                      <div class="field-error" id="err-apellido" data-t="errRequired">Required field</div>
+                    </div>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="emailLabel">Email</label>
+                    <input type="text" id="p-email" name="email" placeholder="john@email.com"/>
+                    <div class="field-error" id="err-email" data-t="errEmail">Invalid email</div>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="phoneLabel">Phone</label>
+                    <input type="text" id="p-tel" name="phone" placeholder="+54 11 1234-5678"/>
+                    <div class="field-error" id="err-tel" data-t="errRequired">Required field</div>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="flightLabel">Flight number <span class="optional-tag" data-t="optional">optional</span></label>
+                    <input type="text" id="p-vuelo" name="flight_number" data-t-placeholder="flightPH"/>
+                    <p class="field-hint" data-t="flightHint">Enter your flight number to better coordinate your pickup.</p>
+                  </div>
+                </div>
+                <div class="card">
+                  <span class="card-label" data-t="scheduleCardLabel">Schedule</span>
+                  <div class="field-group">
+                    <label class="field-label" data-t="tripDateLabel">Trip date</label>
+                    <input type="date" id="p-fecha" name="trip_date" required/>
+                    <div class="field-error" id="err-fecha" data-t="errRequired">Required field</div>
+                    <p class="field-hint" data-t="tripDateHint">Date of the transfer.</p>
+                  </div>
+                  <div class="sep"></div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="pickupTimeLabel">Pickup time</label>
+                    <input type="time" id="p-hora-recogida" name="pickup_time"/>
+                    <div class="field-error" id="err-hora" data-t="errRequired">Required field</div>
+                    <p class="field-hint" data-t="pickupTimeHint">Time you need the vehicle to be at the pickup location.</p>
+                  </div>
+                  <div class="sep"></div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="arrivalTimeLabel">Latest arrival time <span class="optional-tag" data-t="optional">optional</span></label>
+                    <input type="time" id="p-hora-destino" name="arrival_time"/>
+                    <p class="field-hint" data-t="arrivalTimeHint">If you have a deadline to arrive at your destination, enter it here.</p>
+                  </div>
+                </div>
+                <div class="btn-row">
+                  <button type="button" class="btn btn-outline" onclick="goTo('step-passenger','step-options')" data-t="btnBack">Back</button>
+                  <button type="button" class="btn btn-primary" onclick="submitPassenger()" data-t="btnContinue">Continue</button>
+                </div>
+              </div>
+
+              <div id="step-extras" class="step">
+                <div class="progress-bar">
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step1">Route</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step2">Vehicle</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step3">Details</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num active">4</div><span class="prog-label active" data-t="step4">Extras</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num">5</div><span class="prog-label" data-t="step5">Quote</span></div>
+                </div>
+                <div class="card">
+                  <span class="card-label" data-t="extrasCardLabel">Additional services</span>
+                  <p style="font-size:12px;color:var(--text3);margin-bottom:1rem;line-height:1.5;" data-t="extrasNote">All optional — extra cost (ask separately). They help us prepare your trip better.</p>
+                  <div class="extras-grid">
+
+                    <div class="extra-card" id="ex-agua" onclick="toggleExtra('agua')">
+                      <div class="extra-top">
+                        <span class="extra-icon">💧</span>
+                        <span class="extra-name" data-t="exAgua">Mineral water</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                    </div>
+
+                    <div class="extra-card" id="ex-snacks" onclick="toggleExtra('snacks')">
+                      <div class="extra-top">
+                        <span class="extra-icon">🍫</span>
+                        <span class="extra-name" data-t="exSnacks">Snacks</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                    </div>
+
+                    <div class="extra-card has-sub" id="ex-conv">
+                      <div class="extra-top" onclick="toggleExtra('conv')">
+                        <span class="extra-icon">💬</span>
+                        <span class="extra-name" data-t="exConv">Conversation</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                      <div class="extra-sub">
+                        <select id="sel-conv" name="conversation_preference" onclick="event.stopPropagation()">
+                          <option value="si" data-t-opt="convYes">Happy to chat</option>
+                          <option value="no" data-t-opt="convNo">Prefer silence</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="extra-card has-sub" id="ex-musica">
+                      <div class="extra-top" onclick="toggleExtra('musica')">
+                        <span class="extra-icon">🎵</span>
+                        <span class="extra-name" data-t="exMusica">Music</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                      <div class="extra-sub">
+                        <select id="sel-musica" name="music_preference" onclick="event.stopPropagation()">
+                          <option value="tranquila" data-t-opt="musicSoft">Soft / ambient</option>
+                          <option value="pop" data-t-opt="musicPop">Pop / mixed</option>
+                          <option value="sin" data-t-opt="musicNone">No music</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="extra-card has-sub" id="ex-temp">
+                      <div class="extra-top" onclick="toggleExtra('temp')">
+                        <span class="extra-icon">🌡️</span>
+                        <span class="extra-name" data-t="exTemp">Temperature</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                      <div class="extra-sub">
+                        <select id="sel-temp" name="temperature_preference" onclick="event.stopPropagation()">
+                          <option value="frio" data-t-opt="tempCold">Cold (A/C)</option>
+                          <option value="normal" data-t-opt="tempNormal">Normal</option>
+                          <option value="calor" data-t-opt="tempWarm">Heating</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="extra-card has-sub" id="ex-parada">
+                      <div class="extra-top" onclick="toggleExtra('parada')">
+                        <span class="extra-icon">📍</span>
+                        <span class="extra-name" data-t="exParada">Stop en route</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                      <div class="extra-sub" style="display:none">
+                        <input type="text" id="txt-parada" name="stop_request" data-t-placeholder="paradaPH" onclick="event.stopPropagation()" style="font-size:12px;padding:7px 10px"/>
+                      </div>
+                    </div>
+
+                    <div class="extra-card has-sub" id="ex-cargador">
+                      <div class="extra-top" onclick="toggleExtra('cargador')">
+                        <span class="extra-icon">🔌</span>
+                        <span class="extra-name" data-t="exCargador">Charger</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                      <div class="extra-sub">
+                        <select id="sel-cargador" name="charger_type" onclick="event.stopPropagation()">
+                          <option value="usbc" data-t-opt="chargerUSBC">USB-C</option>
+                          <option value="iphone" data-t-opt="chargerIphone">iPhone (Lightning)</option>
+                          <option value="micro" data-t-opt="chargerMicro">Micro USB</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="extra-card" id="ex-bebe" onclick="toggleExtra('bebe')" style="grid-column:span 2">
+                      <div class="extra-top">
+                        <span class="extra-icon">👶</span>
+                        <span class="extra-name" data-t="exBebe">Travelling with a baby / toddler</span>
+                        <span class="extra-check">✓</span>
+                      </div>
+                      <div class="extra-sub" style="font-size:11px;color:var(--text3);line-height:1.5;padding-top:4px;" data-t="exBebeNote">We'll arrange a child seat in advance. We'll confirm availability.</div>
+                    </div>
+
+                  </div>
+
+                  <div class="sep"></div>
+                  <div class="field-group">
+                    <label class="field-label" data-t="commentsLabel">Additional comments <span class="optional-tag" data-t="optional">optional</span></label>
+                    <textarea id="txt-comments" name="comments" data-t-placeholder="commentsPH" rows="3"></textarea>
+                  </div>
+                </div>
+                <div class="btn-row">
+                  <button type="button" class="btn btn-outline" onclick="goTo('step-extras','step-passenger')" data-t="btnBack">Back</button>
+                  <button type="button" class="btn btn-primary" onclick="goTo('step-extras','step-result');buildQuote()" data-t="btnViewQuote">View quote</button>
+                </div>
+              </div>
+
+              <div id="step-result" class="step">
+                <div class="progress-bar">
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step1">Route</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step2">Vehicle</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step3">Details</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num done">✓</div><span class="prog-label" data-t="step4">Extras</span></div>
+                  <div class="prog-line"></div>
+                  <div class="prog-step"><div class="prog-num active">5</div><span class="prog-label active" data-t="step5">Quote</span></div>
+                </div>
+
+                <div id="map"></div>
+
+                <div class="metrics-row">
+                  <div class="metric">
+                    <div class="metric-label" data-t="metricDist">Distance</div>
+                    <div class="metric-value" id="r-km">—</div>
+                    <div class="metric-unit" data-t="metricKm">kilometers</div>
+                  </div>
+                  <div class="metric">
+                    <div class="metric-label" data-t="metricPax">Passengers</div>
+                    <div class="metric-value" id="r-pax">—</div>
+                    <div class="metric-unit" data-t="metricPersons">people</div>
+                  </div>
+                  <div class="metric">
+                    <div class="metric-label" data-t="metricLuggage">Luggage</div>
+                    <div class="metric-value" id="r-luggage">—</div>
+                    <div class="metric-unit" data-t="metricSuitcases">bags</div>
+                  </div>
+                </div>
+
+                <div class="duration-card">
+                  <span class="card-label" style="margin-bottom:6px;" data-t="durationLabel">Estimated duration</span>
+                  <div class="duration-value" id="r-time">—</div>
+                  <div class="duration-note" data-t="durationNote">Without traffic · origin to destination</div>
+                </div>
+
+                <div class="result-detail" id="passenger-summary"></div>
+                <div class="result-detail" id="extras-summary" style="display:none;"></div>
+
+                <div class="total-card">
+                  <div class="total-label" data-t="totalLabel">Estimated total</div>
+                  <div class="total-value" id="total-value">—</div>
+                  <div class="total-currency" id="total-currency">Argentine pesos · ARS</div>
+                  <div class="total-rate" id="total-rate" style="display:none;"></div>
+                </div>
+
+                <div class="disclaimer" data-t="disclaimer"><strong>This price is an estimate.</strong> It does not include tolls or waiting time — both are quoted separately with the operator. The final price is confirmed at the time of booking.</div>
+
+                <div class="recaptcha-wrap">
+                  <div data-netlify-recaptcha="true"></div>
+                </div>
+
+                <div class="btn-row">
+                  <button type="button" class="btn btn-outline" onclick="goTo('step-result','step-extras')" data-t="btnModify">Modify</button>
+                  <button type="submit" class="btn btn-submit" data-t="btnSubmit">Send request to sales team</button>
+                </div>
+              </div>
+
+              <div id="step-confirm" class="step">
+                <div class="card">
+                  <div class="confirm-box">
+                    <div class="confirm-icon">✅</div>
+                    <div class="confirm-title" data-t="confirmTitle">Request sent!</div>
+                    <div class="confirm-sub" data-t="confirmSub">Your request has been received by the sales team. We will contact you within 24 hours to confirm your transfer details.</div>
+                    <div class="ref-box">
+                      <div class="ref-label" data-t="refLabel">Reference number</div>
+                      <div class="ref-value" id="ref-number">—</div>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="location.reload()" data-t="btnNewQuote" style="max-width:260px;margin:0 auto;">New quote</button>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="card-body p-3" style="overflow: hidden">
-              <!--Body--> 
-              <div class="form-group">
-                <div class="input-group mb-2">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
-                  </div>
-                  <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Name" required>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="input-group mb-2">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
-                  </div>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="yourmail@gmail.com"
-                    required>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="input-group mb-2">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-comment text-info"></i></div>
-                  </div>
-                  <textarea class="form-control" name="message" placeholder="Send your message" required></textarea>
-                </div>
-              </div>
-              <div class="text-center">
-                <input type="submit" value="Send" class="btn btn-info btn-block rounded-0 py-2">
-              </div>
-              <div class="field" style="width: 90%;">
-                <div data-netlify-recaptcha="true"></div>
-              </div>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- Descripcion -->
+<!-- Descripcion -->
   <div class="container-fluid mt-4 mb-4">
     <div class="row justify-content-center">
       <div class="descripcion col-xm-6 col-sm-6 col-sm-6 col-md-6 col-lg-6 bwhite o75 text-center">
@@ -290,6 +650,7 @@
   </script>
   <script src="bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
   <script src="public/css/loader.js"></script>
+  <script src="js/cotizador.js"></script>
   <script src="./formulario_toggle.js"></script>
 
 </body>

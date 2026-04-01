@@ -1,15 +1,2 @@
-$("li .cotizar").click(function() {  
-    // console.log("testing");
-    $(".formulario").toggleClass("hidden");
-});
-
-$("li .cotizar2").click(function() {  
-    // console.log("testing");
-    $(".formulario").toggleClass("hidden");
-    $(".toggler").prop("checked", false);
-});
-
-$(".close").click(function() {  
-    // console.log("testing");
-    $(".formulario").toggleClass("hidden");
-});
+// Formulario siempre visible: se desactiva el toggle de apertura/cierre.
+// (Se mantiene el archivo para no romper referencias en HTML.)
