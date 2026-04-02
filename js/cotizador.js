@@ -1,4 +1,4 @@
-const PRICES = { comun: 1250, premium: 1350 };
+﻿const PRICES = { comun: 1250, premium: 1350 };
 const GARAGE = "General Paz 431, San Isidro, Buenos Aires, Argentina";
 
 let lang = "es",
@@ -57,17 +57,17 @@ const T = {
     lastNamePH: "García",
     emailLabel: "Email",
     phoneLabel: "Teléfono",
-    flightLabel: "Número de vuelo",
+    flightLabel: "Número de vuelo <span class=\"optional-tag\">(opcional)</span>",
     optional: "opcional",
     flightPH: "Ej: AR 1234",
     flightHint: "Ingresá tu número de vuelo para coordinar mejor la recogida.",
     scheduleCardLabel: "Horarios",
     tripDateLabel: "Fecha del viaje",
     tripDateHint: "Fecha en la que se realiza el traslado.",
-    pickupTimeLabel: "Hora de recogida",
+    pickupTimeLabel: "Hora de recogida <span class=\"optional-tag\">(opcional)</span>",
     pickupTimeHint:
       "Hora en que necesitás que el vehículo esté en el punto de origen.",
-    arrivalTimeLabel: "Hora límite en destino",
+    arrivalTimeLabel: "Hora límite en destino <span class=\"optional-tag\">(opcional)</span>",
     arrivalTimeHint: "Si tenés un horario límite para llegar, indicalo aquí.",
     btnViewQuote: "Ver cotización",
     extrasCardLabel: "Servicios adicionales",
@@ -183,16 +183,16 @@ const T = {
     lastNamePH: "Smith",
     emailLabel: "Email",
     phoneLabel: "Phone",
-    flightLabel: "Flight number",
+    flightLabel: "Flight number <span class=\"optional-tag\">(optional)</span>",
     optional: "optional",
     flightPH: "E.g.: AR 1234",
     flightHint: "Enter your flight number to better coordinate your pickup.",
     scheduleCardLabel: "Schedule",
     tripDateLabel: "Trip date",
     tripDateHint: "Date of the transfer.",
-    pickupTimeLabel: "Pickup time",
+    pickupTimeLabel: "Pickup time <span class=\"optional-tag\">(optional)</span>",
     pickupTimeHint: "Time you need the vehicle to be at the pickup location.",
-    arrivalTimeLabel: "Latest arrival time",
+    arrivalTimeLabel: "Latest arrival time <span class=\"optional-tag\">(optional)</span>",
     arrivalTimeHint:
       "If you have a deadline to arrive at your destination, enter it here.",
     btnViewQuote: "View quote",
@@ -575,7 +575,6 @@ function validatePassengerFields() {
     },
     { id: "p-tel", err: "err-tel", check: (v) => v.length > 4 },
     { id: "p-fecha", err: "err-fecha", check: (v) => v.length > 0 },
-    { id: "p-hora-recogida", err: "err-hora", check: (v) => v.length > 0 },
   ];
   let valid = true;
   fields.forEach((f) => {
