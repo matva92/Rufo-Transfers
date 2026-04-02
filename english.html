@@ -237,6 +237,9 @@
                     <button type="button" class="toggle-btn active" id="cur-ars" onclick="setCurrency('ARS')">ARS</button>
                     <button type="button" class="toggle-btn" id="cur-usd" onclick="setCurrency('USD')">USD</button>
                   </div>
+                  <div class="toggle-group">
+                    <button type="button" class="toggle-btn" id="btn-dev-fill" onclick="loadDevDemo()" data-t="btnDevFill" style="display:none;">Load demo</button>
+                  </div>
                 </div>
               </div>
 
@@ -260,6 +263,9 @@
                       <input type="text" id="origin-input" name="origin" data-t-placeholder="originPH" autocomplete="off"/>
                       <div class="pac-list" id="origin-list" style="display:none;"></div>
                     </div>
+                  </div>
+                  <div class="route-swap-row">
+                    <button type="button" class="route-swap-btn" onclick="swapRouteInputs()" data-t="swapRouteBtn">↕ Swap</button>
                   </div>
                   <div class="field-group">
                     <label class="field-label" data-t="destLabel">Drop-off location</label>
@@ -362,7 +368,7 @@
                   </div>
                   <div class="field-group">
                     <label class="field-label" data-t="emailLabel">Email</label>
-                    <input type="text" id="p-email" name="email" placeholder="john@email.com"/>
+                    <input type="text" id="p-email" name="email" data-t-placeholder="emailPH"/>
                     <div class="field-error" id="err-email" data-t="errEmail">Invalid email</div>
                   </div>
                   <div class="field-group">
@@ -575,6 +581,7 @@
                   <div class="total-label" data-t="totalLabel">Estimated total</div>
                   <div class="total-value" id="total-value">—</div>
                   <div class="total-currency" id="total-currency">Argentine pesos · ARS</div>
+                  <div class="total-minimum-note" id="total-minimum-note" style="display:none;"></div>
                   <div class="total-rate" id="total-rate" style="display:none;"></div>
                 </div>
 

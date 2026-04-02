@@ -1,5 +1,14 @@
-﻿const PRICES = { comun: 1250, premium: 1350 };
+﻿const PRICES = { comun: 1200, premium: 1300 };
+const MINIMUMS = { comun: 25000, premium: 30000 };
+const TOTAL_MULTIPLIER = 0.88;
 const GARAGE = "General Paz 431, San Isidro, Buenos Aires, Argentina";
+const STEP_ORDER = [
+  "step-route",
+  "step-options",
+  "step-passenger",
+  "step-extras",
+  "step-result",
+];
 
 let lang = "es",
   currency = "ARS",
@@ -9,7 +18,8 @@ let mapsOk = false,
   vehicle = null;
 let acSessions = {},
   dirRenderer = null,
-  lastTotalARS = 0;
+  lastTotalARS = 0,
+  lastMinimumApplied = false;
 const extrasSelected = new Set();
 
 const T = {
@@ -29,9 +39,11 @@ const T = {
     step3: "Datos",
     step4: "Extras",
     step5: "Cotización",
+    btnDevFill: "Cargar demo",
     routeCardLabel: "Detalle del viaje",
     originLabel: "Punto de origen",
     destLabel: "Punto de destino",
+    swapRouteBtn: "↕ Intercambiar",
     originPH: "Ej: Nordelta, Tigre",
     destPH: "Ej: Aeropuerto Internacional Ezeiza",
     btnCalcRoute: "Calcular ruta",
@@ -52,22 +64,25 @@ const T = {
     btnBack: "Volver",
     passengerCardLabel: "Datos del pasajero",
     firstNameLabel: "Nombre",
-    firstNamePH: "Juan",
+    firstNamePH: "Ej: Juan",
     lastNameLabel: "Apellido",
-    lastNamePH: "García",
+    lastNamePH: "Ej: García",
     emailLabel: "Email",
+    emailPH: "Ej: juan@email.com",
     phoneLabel: "Teléfono",
-    flightLabel: "Número de vuelo <span class=\"optional-tag\">(opcional)</span>",
+    flightLabel: 'Número de vuelo <span class="optional-tag">(opcional)</span>',
     optional: "opcional",
     flightPH: "Ej: AR 1234",
     flightHint: "Ingresá tu número de vuelo para coordinar mejor la recogida.",
     scheduleCardLabel: "Horarios",
     tripDateLabel: "Fecha del viaje",
     tripDateHint: "Fecha en la que se realiza el traslado.",
-    pickupTimeLabel: "Hora de recogida <span class=\"optional-tag\">(opcional)</span>",
+    pickupTimeLabel:
+      'Hora de recogida <span class="optional-tag">(opcional)</span>',
     pickupTimeHint:
       "Hora en que necesitás que el vehículo esté en el punto de origen.",
-    arrivalTimeLabel: "Hora límite en destino <span class=\"optional-tag\">(opcional)</span>",
+    arrivalTimeLabel:
+      'Hora límite en destino <span class="optional-tag">(opcional)</span>',
     arrivalTimeHint: "Si tenés un horario límite para llegar, indicalo aquí.",
     btnViewQuote: "Ver cotización",
     extrasCardLabel: "Servicios adicionales",
@@ -106,6 +121,7 @@ const T = {
     durationLabel: "Duración estimada",
     durationNote: "Sin tráfico · origen a destino",
     totalLabel: "Total estimado",
+    minimumFareNote: "Tarifa mínima por viaje",
     disclaimer:
       "<strong>Este precio es un estimado.</strong> No incluye peajes ni tiempo de espera — ambos se cotizan de forma separada con el operador. El precio final se confirma al momento de la reserva.",
     btnModify: "Modificar",
@@ -114,6 +130,8 @@ const T = {
     errRequired: "Campo requerido",
     errEmail: "Email inválido",
     summaryPassenger: "Pasajero",
+    summaryOrigin: "Origen",
+    summaryDestination: "Destino",
     summaryEmail: "Email",
     summaryPhone: "Teléfono",
     summaryTripDate: "Fecha del viaje",
@@ -121,6 +139,7 @@ const T = {
     summaryArrival: "Hora límite en destino",
     summaryFlight: "Número de vuelo",
     summaryExtras: "Servicios solicitados",
+    summaryComments: "Comentarios",
     currencyARS: "Pesos argentinos · ARS",
     currencyUSD: "Dólares estadounidenses · USD",
     rateLabel: "Tipo de cambio (compra oficial)",
@@ -134,7 +153,7 @@ const T = {
       "No se pudo cargar Google Maps. Verificá la key y que las APIs estén habilitadas.",
     mapsTimeoutError:
       "Tiempo de espera agotado. Verificá tu API key y las APIs habilitadas.",
-    routePickupError: "Error en tramo de recogida",
+    routePickupError: "Error en tramo desde la base",
     routeCalcError: "No se pudo calcular la ruta",
     formMissing: "Completá la ruta y el vehículo antes de enviar.",
     submitError: "No se pudo enviar el formulario. Intentá nuevamente.",
@@ -155,9 +174,11 @@ const T = {
     step3: "Details",
     step4: "Extras",
     step5: "Quote",
+    btnDevFill: "Load demo",
     routeCardLabel: "Trip details",
     originLabel: "Pickup location",
     destLabel: "Drop-off location",
+    swapRouteBtn: "↕ Swap",
     originPH: "E.g.: Nordelta, Tigre",
     destPH: "E.g.: Ezeiza International Airport",
     btnCalcRoute: "Calculate route",
@@ -178,21 +199,23 @@ const T = {
     btnBack: "Back",
     passengerCardLabel: "Passenger details",
     firstNameLabel: "First name",
-    firstNamePH: "John",
+    firstNamePH: "E.g.: John",
     lastNameLabel: "Last name",
-    lastNamePH: "Smith",
+    lastNamePH: "E.g.: Smith",
     emailLabel: "Email",
+    emailPH: "E.g.: john@email.com",
     phoneLabel: "Phone",
-    flightLabel: "Flight number <span class=\"optional-tag\">(optional)</span>",
+    flightLabel: 'Flight number <span class="optional-tag">(optional)</span>',
     optional: "optional",
     flightPH: "E.g.: AR 1234",
     flightHint: "Enter your flight number to better coordinate your pickup.",
     scheduleCardLabel: "Schedule",
     tripDateLabel: "Trip date",
     tripDateHint: "Date of the transfer.",
-    pickupTimeLabel: "Pickup time <span class=\"optional-tag\">(optional)</span>",
+    pickupTimeLabel: 'Pickup time <span class="optional-tag">(optional)</span>',
     pickupTimeHint: "Time you need the vehicle to be at the pickup location.",
-    arrivalTimeLabel: "Latest arrival time <span class=\"optional-tag\">(optional)</span>",
+    arrivalTimeLabel:
+      'Latest arrival time <span class="optional-tag">(optional)</span>',
     arrivalTimeHint:
       "If you have a deadline to arrive at your destination, enter it here.",
     btnViewQuote: "View quote",
@@ -232,6 +255,7 @@ const T = {
     durationLabel: "Estimated duration",
     durationNote: "Without traffic · origin to destination",
     totalLabel: "Estimated total",
+    minimumFareNote: "Minimum fare per trip",
     disclaimer:
       "<strong>This price is an estimate.</strong> It does not include tolls or waiting time — both are quoted separately with the operator. The final price is confirmed at the time of booking.",
     btnModify: "Modify",
@@ -240,6 +264,8 @@ const T = {
     errRequired: "Required field",
     errEmail: "Invalid email",
     summaryPassenger: "Passenger",
+    summaryOrigin: "Origin",
+    summaryDestination: "Destination",
     summaryEmail: "Email",
     summaryPhone: "Phone",
     summaryTripDate: "Trip date",
@@ -247,6 +273,7 @@ const T = {
     summaryArrival: "Latest arrival",
     summaryFlight: "Flight number",
     summaryExtras: "Requested services",
+    summaryComments: "Comments",
     currencyARS: "Argentine pesos · ARS",
     currencyUSD: "US dollars · USD",
     rateLabel: "Exchange rate (official buy)",
@@ -260,7 +287,7 @@ const T = {
       "Google Maps could not be loaded. Check the API key and enabled APIs.",
     mapsTimeoutError:
       "Timeout while loading Google Maps. Check the API key and enabled APIs.",
-    routePickupError: "Pickup leg error",
+    routePickupError: "Base leg error",
     routeCalcError: "Route could not be calculated",
     formMissing: "Complete the route and vehicle selection before submitting.",
     submitError: "The form could not be sent. Please try again.",
@@ -295,7 +322,156 @@ function applyTranslations() {
     const k = el.getAttribute("data-t-opt");
     if (t[k] !== undefined) el.textContent = t[k];
   });
+  if (routeData && lastTotalARS > 0) renderQuoteSummary();
   if (lastTotalARS > 0) renderTotal(lastTotalARS);
+}
+
+function isDevMode() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("dev") === "1") return true;
+  const { protocol, hostname } = window.location;
+  return (
+    protocol === "file:" ||
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname === "[::1]"
+  );
+}
+
+function getNextDateISO(daysAhead = 1) {
+  const d = new Date();
+  d.setDate(d.getDate() + daysAhead);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function setFieldValue(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.value = value;
+}
+
+function clearPassengerErrors() {
+  ["p-nombre", "p-apellido", "p-email", "p-tel", "p-fecha"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove("error");
+  });
+  ["err-nombre", "err-apellido", "err-email", "err-tel", "err-fecha"].forEach(
+    (id) => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove("visible");
+    },
+  );
+}
+
+function clearExtrasSelection() {
+  const ids = [
+    "agua",
+    "snacks",
+    "conv",
+    "musica",
+    "temp",
+    "parada",
+    "cargador",
+    "bebe",
+  ];
+  extrasSelected.clear();
+  ids.forEach((id) => {
+    const card = document.getElementById(`ex-${id}`);
+    if (card) card.classList.remove("selected");
+    if (id === "parada" && card) {
+      const sub = card.querySelector(".extra-sub");
+      if (sub) sub.style.display = "none";
+    }
+  });
+}
+
+function isPassengerDataComplete() {
+  const checks = [
+    (document.getElementById("p-nombre")?.value || "").trim().length > 0,
+    (document.getElementById("p-apellido")?.value || "").trim().length > 0,
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+      (document.getElementById("p-email")?.value || "").trim(),
+    ),
+    (document.getElementById("p-tel")?.value || "").trim().length > 4,
+    (document.getElementById("p-fecha")?.value || "").trim().length > 0,
+  ];
+  return checks.every(Boolean);
+}
+
+function getActiveStepId() {
+  return document.querySelector(".step.active")?.id || STEP_ORDER[0];
+}
+
+function getMaxReachableStepIndex() {
+  if (!routeData) return 0;
+  if (!vehicle) return 1;
+  if (!isPassengerDataComplete()) return 2;
+  return 4;
+}
+
+function updateProgressNavigation() {
+  const activeStepId = getActiveStepId();
+  const activeIndex = STEP_ORDER.indexOf(activeStepId);
+  const maxReachableIndex = Math.max(getMaxReachableStepIndex(), activeIndex);
+
+  document.querySelectorAll(".prog-step").forEach((step) => {
+    const targetStepId = step.dataset.targetStep;
+    const targetIndex = STEP_ORDER.indexOf(targetStepId);
+    const canJump = targetIndex !== -1 && targetIndex <= maxReachableIndex;
+    const isCurrent = targetStepId === activeStepId;
+    const isClickable = canJump && !isCurrent;
+
+    step.classList.toggle("is-clickable", isClickable);
+    step.setAttribute("tabindex", isClickable ? "0" : "-1");
+    step.setAttribute("role", isClickable ? "button" : "presentation");
+    step.setAttribute("aria-disabled", isClickable ? "false" : "true");
+    if (isCurrent) {
+      step.setAttribute("aria-current", "step");
+    } else {
+      step.removeAttribute("aria-current");
+    }
+  });
+}
+
+function navigateToStep(stepId) {
+  const targetIndex = STEP_ORDER.indexOf(stepId);
+  const activeIndex = STEP_ORDER.indexOf(getActiveStepId());
+  const maxReachableIndex = Math.max(getMaxReachableStepIndex(), activeIndex);
+
+  if (targetIndex === -1 || targetIndex > maxReachableIndex) return;
+  if (stepId === "step-result") buildQuote();
+  showStep(stepId);
+}
+
+function initProgressNavigation() {
+  document.querySelectorAll(".step .progress-bar").forEach((bar) => {
+    bar.querySelectorAll(".prog-step").forEach((step, index) => {
+      step.dataset.targetStep = STEP_ORDER[index] || "";
+      if (step.dataset.navBound === "1") return;
+      step.dataset.navBound = "1";
+      step.addEventListener("click", () => {
+        navigateToStep(step.dataset.targetStep);
+      });
+      step.addEventListener("keydown", (evt) => {
+        if (evt.key !== "Enter" && evt.key !== " ") return;
+        evt.preventDefault();
+        navigateToStep(step.dataset.targetStep);
+      });
+    });
+  });
+  updateProgressNavigation();
+}
+
+function showStep(stepId) {
+  document
+    .querySelectorAll(".step")
+    .forEach((el) => el.classList.remove("active"));
+  const step = document.getElementById(stepId);
+  if (step) step.classList.add("active");
+  updateProgressNavigation();
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function setCurrency(c) {
@@ -338,6 +514,7 @@ function renderTotal(totalARS) {
   const rateEl = document.getElementById("total-rate");
   const valEl = document.getElementById("total-value");
   const curEl = document.getElementById("total-currency");
+  const minimumNoteEl = document.getElementById("total-minimum-note");
   const totalArsInput = document.getElementById("total-ars-input");
   const totalUsdInput = document.getElementById("total-usd-input");
   if (totalArsInput) totalArsInput.value = totalARS;
@@ -366,6 +543,14 @@ function renderTotal(totalARS) {
     if (curEl) curEl.textContent = t.currencyARS;
     if (rateEl) rateEl.style.display = "none";
     if (totalUsdInput) totalUsdInput.value = "";
+  }
+  if (minimumNoteEl) {
+    if (lastMinimumApplied) {
+      minimumNoteEl.textContent = t.minimumFareNote;
+      minimumNoteEl.style.display = "block";
+    } else {
+      minimumNoteEl.style.display = "none";
+    }
   }
 }
 
@@ -402,10 +587,12 @@ function bindAutocomplete() {
     return;
   }
   originInput.addEventListener("input", () => {
+    resetRouteCalculation();
     doAC("origin");
     checkReady();
   });
   destInput.addEventListener("input", () => {
+    resetRouteCalculation();
     doAC("dest");
     checkReady();
   });
@@ -464,6 +651,32 @@ function checkReady() {
   btn.disabled = !(o.value.trim().length > 3 && d.value.trim().length > 3);
 }
 
+function resetRouteCalculation() {
+  routeData = null;
+  const err = document.getElementById("route-error");
+  if (err) err.style.display = "none";
+  updateProgressNavigation();
+}
+
+function swapRouteInputs() {
+  const originInput = document.getElementById("origin-input");
+  const destInput = document.getElementById("dest-input");
+  if (!originInput || !destInput) return;
+
+  const originValue = originInput.value;
+  originInput.value = destInput.value;
+  destInput.value = originValue;
+
+  ["origin-list", "dest-list"].forEach((id) => {
+    const list = document.getElementById(id);
+    if (list) list.style.display = "none";
+  });
+  acSessions.origin = null;
+  acSessions.dest = null;
+  resetRouteCalculation();
+  checkReady();
+}
+
 function calcRoute() {
   if (!mapsOk) {
     return;
@@ -478,19 +691,24 @@ function calcRoute() {
   if (err) err.style.display = "none";
   if (btn) btn.disabled = true;
   const svc = new google.maps.DirectionsService();
-  let leg1 = null,
-    leg2 = null,
-    result2 = null,
+  let legBaseToOrigin = null,
+    legTrip = null,
+    legBaseToDest = null,
+    resultTrip = null,
     done = 0,
     errored = false;
   function finish() {
     if (loading) loading.classList.remove("visible");
     if (btn) btn.disabled = false;
+    const kmBaseToOrigin = +(legBaseToOrigin.distance.value / 1000).toFixed(2);
+    const kmBaseToDest = +(legBaseToDest.distance.value / 1000).toFixed(2);
     routeData = {
-      result: result2,
-      kmDead: +(leg1.distance.value / 1000).toFixed(2),
-      kmTrip: +(leg2.distance.value / 1000).toFixed(2),
-      durationTrip: leg2.duration.text,
+      result: resultTrip,
+      kmDead: Math.max(kmBaseToOrigin, kmBaseToDest),
+      kmTrip: +(legTrip.distance.value / 1000).toFixed(2),
+      durationTrip: legTrip.duration.text,
+      kmBaseOrigin: kmBaseToOrigin,
+      kmBaseDest: kmBaseToDest,
       originRaw: origin,
       destRaw: dest,
     };
@@ -511,9 +729,9 @@ function calcRoute() {
         showErr("route-error", `${t.routePickupError} (${s}).`);
         return;
       }
-      leg1 = r.routes[0].legs[0];
+      legBaseToOrigin = r.routes[0].legs[0];
       done++;
-      if (done === 2) finish();
+      if (done === 3) finish();
     },
   );
   svc.route(
@@ -527,10 +745,30 @@ function calcRoute() {
         showErr("route-error", `${t.routeCalcError} (${s}).`);
         return;
       }
-      leg2 = r.routes[0].legs[0];
-      result2 = r;
+      legTrip = r.routes[0].legs[0];
+      resultTrip = r;
       done++;
-      if (done === 2) finish();
+      if (done === 3) finish();
+    },
+  );
+  svc.route(
+    {
+      origin: GARAGE,
+      destination: dest,
+      travelMode: google.maps.TravelMode.DRIVING,
+    },
+    (r, s) => {
+      if (errored) return;
+      if (s !== "OK") {
+        errored = true;
+        if (loading) loading.classList.remove("visible");
+        if (btn) btn.disabled = false;
+        showErr("route-error", `${t.routePickupError} (${s}).`);
+        return;
+      }
+      legBaseToDest = r.routes[0].legs[0];
+      done++;
+      if (done === 3) finish();
     },
   );
 }
@@ -545,6 +783,7 @@ function selectVehicle(type) {
   if (btn) btn.disabled = false;
   const vehicleInput = document.getElementById("vehicle-input");
   if (vehicleInput) vehicleInput.value = type;
+  updateProgressNavigation();
 }
 
 function toggleExtra(id) {
@@ -655,15 +894,32 @@ function formatTripDateForRef(dateStr) {
   return `${d}${months[m]}${y.slice(-2)}`;
 }
 
-function buildQuote() {
-  if (!vehicle || !routeData) return;
+function roundUpToNextThousand(value) {
+  return Math.ceil(value / 1000) * 1000;
+}
+
+function calculateQuoteTotalARS() {
+  if (!vehicle || !routeData) {
+    lastMinimumApplied = false;
+    return 0;
+  }
+  const rate = PRICES[vehicle];
+  const minimum = MINIMUMS[vehicle] || 0;
+  const { kmDead, kmTrip } = routeData;
+  const baseTotal = Math.round(kmTrip * rate) + Math.round((kmDead * rate) / 4);
+  const adjustedTotal = Math.round(baseTotal * TOTAL_MULTIPLIER);
+  lastMinimumApplied = adjustedTotal < minimum;
+
+  return roundUpToNextThousand(Math.max(adjustedTotal, minimum));
+}
+
+function renderQuoteSummary() {
+  if (!routeData) return;
   const t = T[lang];
   const pax = parseInt(document.getElementById("pax-input")?.value, 10) || 1;
   const luggage =
     parseInt(document.getElementById("luggage-input")?.value, 10) || 0;
-  const rate = PRICES[vehicle];
-  const { kmDead, kmTrip, durationTrip } = routeData;
-  const totalARS = Math.round(kmTrip * rate) + Math.round((kmDead * rate) / 2);
+  const { kmTrip, durationTrip } = routeData;
 
   const rKm = document.getElementById("r-km");
   const rTime = document.getElementById("r-time");
@@ -682,9 +938,13 @@ function buildQuote() {
   const fecha = document.getElementById("p-fecha")?.value || "";
   const recogida = document.getElementById("p-hora-recogida")?.value || "";
   const destino = document.getElementById("p-hora-destino")?.value || "";
+  const origenViaje = routeData.originRaw || "";
+  const destinoViaje = routeData.destRaw || "";
 
   let rows = `
     <div class="result-detail-row"><span class="result-detail-label">${t.summaryPassenger}</span><span class="result-detail-value">${nombre} ${apellido}</span></div>
+    <div class="result-detail-row"><span class="result-detail-label">${t.summaryOrigin}</span><span class="result-detail-value">${origenViaje}</span></div>
+    <div class="result-detail-row"><span class="result-detail-label">${t.summaryDestination}</span><span class="result-detail-value">${destinoViaje}</span></div>
     <div class="result-detail-row"><span class="result-detail-label">${t.summaryEmail}</span><span class="result-detail-value">${email}</span></div>
     <div class="result-detail-row"><span class="result-detail-label">${t.summaryPhone}</span><span class="result-detail-value">${tel}</span></div>
     <div class="result-detail-row"><span class="result-detail-label">${t.summaryTripDate}</span><span class="result-detail-value">${formatTripDateForDisplay(fecha)}</span></div>
@@ -705,7 +965,7 @@ function buildQuote() {
       erows += `<div class="result-detail-row"><span class="result-detail-label">${t.summaryExtras}</span><span class="result-detail-value" style="font-size:12px;">${extrasSummary}</span></div>`;
     }
     if (comments) {
-      erows += `<div class="result-detail-row"><span class="result-detail-label">Comentarios</span><span class="result-detail-value" style="font-size:12px;">${comments}</span></div>`;
+      erows += `<div class="result-detail-row"><span class="result-detail-label">${t.summaryComments}</span><span class="result-detail-value" style="font-size:12px;">${comments}</span></div>`;
     }
     if (extrasEl) {
       extrasEl.innerHTML = erows;
@@ -714,6 +974,14 @@ function buildQuote() {
   } else if (extrasEl) {
     extrasEl.style.display = "none";
   }
+}
+
+function buildQuote() {
+  if (!vehicle || !routeData) return;
+  const { kmTrip, durationTrip } = routeData;
+  const totalARS = calculateQuoteTotalARS();
+
+  renderQuoteSummary();
 
   if (currency === "USD" && !usdRate) fetchRate();
   renderTotal(totalARS);
@@ -747,8 +1015,62 @@ function buildQuote() {
       },
     });
     dirRenderer.setMap(gmap);
-    dirRenderer.setDirections(routeData.result);
+    if (routeData.result) dirRenderer.setDirections(routeData.result);
   }, 120);
+}
+
+function loadDevDemo() {
+  if (!isDevMode()) return;
+  const demo = {
+    origin: "Nordelta, Tigre, Buenos Aires",
+    destination: "Aeropuerto Internacional Ezeiza, Buenos Aires",
+    kmDead: 14.8,
+    kmTrip: 52.4,
+    durationTrip: lang === "es" ? "1 h 05 min" : "1 hr 05 min",
+    firstName: "Juan",
+    lastName: "Pérez",
+    email: "juan@example.com",
+    phone: "+54 11 1234-5678",
+    flight: "AR 1234",
+    tripDate: getNextDateISO(1),
+    pickupTime: "08:30",
+    arrivalTime: "09:45",
+    pax: "2",
+    luggage: "2",
+    comments:
+      lang === "es"
+        ? "Dato de prueba para revisar la experiencia completa del cotizador."
+        : "Sample data to review the full quote experience.",
+  };
+
+  setFieldValue("origin-input", demo.origin);
+  setFieldValue("dest-input", demo.destination);
+  routeData = {
+    result: null,
+    kmDead: demo.kmDead,
+    kmTrip: demo.kmTrip,
+    durationTrip: demo.durationTrip,
+    originRaw: demo.origin,
+    destRaw: demo.destination,
+  };
+
+  selectVehicle("comun");
+  setFieldValue("pax-input", demo.pax);
+  setFieldValue("luggage-input", demo.luggage);
+  setFieldValue("p-nombre", demo.firstName);
+  setFieldValue("p-apellido", demo.lastName);
+  setFieldValue("p-email", demo.email);
+  setFieldValue("p-tel", demo.phone);
+  setFieldValue("p-vuelo", demo.flight);
+  setFieldValue("p-fecha", demo.tripDate);
+  setFieldValue("p-hora-recogida", demo.pickupTime);
+  setFieldValue("p-hora-destino", demo.arrivalTime);
+  setFieldValue("txt-comments", demo.comments);
+  clearPassengerErrors();
+  clearExtrasSelection();
+  checkReady();
+  buildQuote();
+  showStep("step-result");
 }
 
 async function submitQuote(evt) {
@@ -846,6 +1168,7 @@ function goTo(from, to) {
   const toEl = document.getElementById(to);
   if (fromEl) fromEl.classList.remove("active");
   if (toEl) toEl.classList.add("active");
+  updateProgressNavigation();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -871,13 +1194,20 @@ function initCotizador() {
   const form = document.getElementById("cotizador-form");
   if (form) {
     form.addEventListener("submit", submitQuote);
+    form.addEventListener("input", updateProgressNavigation);
+    form.addEventListener("change", updateProgressNavigation);
   }
+  initProgressNavigation();
   const langInput = document.getElementById("lang-input");
   const initialLang = langInput && langInput.value === "en" ? "en" : "es";
   setLang(initialLang);
   setCurrency("ARS");
+  const devBtn = document.getElementById("btn-dev-fill");
+  if (devBtn && isDevMode()) devBtn.style.display = "";
   const mapsKey = root.dataset.mapsKey || "";
   loadMaps(mapsKey);
+  const params = new URLSearchParams(window.location.search);
+  if (isDevMode() && params.get("demo") === "1") loadDevDemo();
 }
 
 if (document.readyState === "loading") {
@@ -889,6 +1219,8 @@ if (document.readyState === "loading") {
 window.setLang = setLang;
 window.setCurrency = setCurrency;
 window.calcRoute = calcRoute;
+window.swapRouteInputs = swapRouteInputs;
+window.loadDevDemo = loadDevDemo;
 window.selectVehicle = selectVehicle;
 window.submitPassenger = submitPassenger;
 window.toggleExtra = toggleExtra;
