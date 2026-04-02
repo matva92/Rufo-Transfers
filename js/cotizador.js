@@ -1156,10 +1156,29 @@ async function submitQuote(evt) {
       },
       body: payload.toString(),
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const raw = await res.text();
+    let serverMessage = "";
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed.message === "string") {
+          serverMessage = parsed.message.trim();
+        } else {
+          serverMessage = raw.trim();
+        }
+      } catch (_) {
+        serverMessage = raw.trim();
+      }
+    }
+    if (!res.ok) {
+      const fallback = T[lang].submitError;
+      const detail = serverMessage || `HTTP ${res.status}`;
+      throw new Error(`${fallback} (${detail})`);
+    }
     goTo("step-result", "step-confirm");
-  } catch (_) {
-    showErr("route-error", T[lang].submitError);
+  } catch (err) {
+    const msg = err && err.message ? err.message : T[lang].submitError;
+    showErr("route-error", msg);
   }
 }
 

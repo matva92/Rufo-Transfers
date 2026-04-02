@@ -214,11 +214,46 @@ exports.handler = async (event) => {
 
     if (!res.ok) {
       const errText = await res.text();
-      return { statusCode: res.status, body: errText };
+      let providerMessage = `Brevo error ${res.status}`;
+      let providerBody = errText;
+      try {
+        const parsed = JSON.parse(errText);
+        providerBody = parsed;
+        if (parsed && typeof parsed.message === 'string' && parsed.message.trim()) {
+          providerMessage = parsed.message.trim();
+        }
+      } catch (_) {}
+
+      console.error('Brevo send failed', {
+        status: res.status,
+        message: providerMessage,
+        body: providerBody,
+      });
+
+      return {
+        statusCode: 400,
+        headers: { 'content-type': 'application/json; charset=utf-8' },
+        body: JSON.stringify({
+          ok: false,
+          message: providerMessage,
+          providerStatus: res.status,
+        }),
+      };
     }
 
-    return { statusCode: 200, body: 'ok' };
+    return {
+      statusCode: 200,
+      headers: { 'content-type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({ ok: true }),
+    };
   } catch (err) {
-    return { statusCode: 500, body: err.message || 'send failed' };
+    return {
+      statusCode: 500,
+      headers: { 'content-type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({
+        ok: false,
+        message: err.message || 'send failed',
+      }),
+    };
   }
 };
