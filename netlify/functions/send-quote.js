@@ -1,4 +1,5 @@
 const BREVO_URL = 'https://api.brevo.com/v3/smtp/email';
+const SIMPLE_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function escapeHtml(value = '') {
   return String(value)
@@ -17,6 +18,30 @@ function toTextRow(label, value) {
 function toHtmlRow(label, value) {
   if (!value) return '';
   return `<tr><td style="padding:6px 10px;border-bottom:1px solid #eee;color:#666;width:38%">${escapeHtml(label)}</td><td style="padding:6px 10px;border-bottom:1px solid #eee;color:#111">${escapeHtml(value)}</td></tr>`;
+}
+
+function normalizeEmailCandidate(value = '') {
+  let v = String(value).trim();
+  if (!v) return '';
+  const angle = v.match(/<([^>]+)>/);
+  if (angle && angle[1]) v = angle[1].trim();
+  v = v.replace(/^['"]+|['"]+$/g, '').trim();
+  return v;
+}
+
+function parseRecipientEmails(rawValue = '') {
+  const parts = String(rawValue)
+    .split(/[;,]/)
+    .map((part) => normalizeEmailCandidate(part))
+    .filter(Boolean);
+
+  const valid = [];
+  const invalid = [];
+  for (const candidate of parts) {
+    if (SIMPLE_EMAIL_RE.test(candidate)) valid.push(candidate);
+    else invalid.push(candidate);
+  }
+  return { valid, invalid };
 }
 
 exports.handler = async (event) => {
@@ -180,13 +205,30 @@ exports.handler = async (event) => {
   const senderName = process.env.BREVO_SENDER_NAME || 'Rufo Transfers';
   const toName = process.env.BREVO_TO_NAME || '';
   const toEmailsRaw = process.env.BREVO_TO_EMAIL || senderEmail;
-  const toEmails = String(toEmailsRaw)
-    .split(/[;,]/)
-    .map((e) => e.trim())
-    .filter(Boolean);
+  const { valid: toEmails, invalid: invalidToEmails } = parseRecipientEmails(
+    toEmailsRaw,
+  );
+  const normalizedSenderEmail = normalizeEmailCandidate(senderEmail);
+  const senderLooksValid = SIMPLE_EMAIL_RE.test(normalizedSenderEmail);
+  if (toEmails.length === 0 && senderLooksValid) {
+    toEmails.push(normalizedSenderEmail);
+  }
+  if (invalidToEmails.length > 0) {
+    console.warn('Ignored invalid BREVO_TO_EMAIL values', {
+      invalid: invalidToEmails,
+    });
+  }
 
   if (!apiKey || !senderEmail || toEmails.length === 0) {
-    return { statusCode: 500, body: 'Missing email configuration.' };
+    return {
+      statusCode: 500,
+      headers: { 'content-type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({
+        ok: false,
+        message:
+          'Missing email configuration. Verify BREVO_TO_EMAIL and BREVO_SENDER_EMAIL.',
+      }),
+    };
   }
 
   const payload = {
