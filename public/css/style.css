@@ -51,13 +51,11 @@ html {
 
 body {
     font-family: 'Questrial', sans-serif;
-    background-color: white;
-    background-image: url(../imgs/background.webp);
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background:
+        radial-gradient(circle at 10% 12%, rgba(184, 207, 223, 0.2) 0%, rgba(184, 207, 223, 0) 42%),
+        linear-gradient(145deg, #eff3f8 0%, #e8edf5 45%, #eef2f8 100%);
+    background-color: #eef2f8;
+    background-attachment: fixed;
 }
 
 

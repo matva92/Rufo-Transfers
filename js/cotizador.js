@@ -295,6 +295,14 @@ const T = {
 };
 
 function setLang(l) {
+  const pathname = (window.location.pathname || "").toLowerCase();
+  const currentPathLang = pathname.includes("english") ? "en" : "es";
+  if (l !== currentPathLang) {
+    const target = l === "en" ? "/english.html" : "/";
+    window.location.href = `${target}${window.location.search || ""}`;
+    return;
+  }
+
   lang = l;
   const esBtn = document.getElementById("lang-es");
   const enBtn = document.getElementById("lang-en");
