@@ -468,6 +468,16 @@
     color: rgba(255, 255, 255, 0.58);
 }
 
+.home-page .footer-credit a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.14em;
+}
+
+.home-page .footer-credit a:hover {
+    color: rgba(255, 255, 255, 0.82);
+}
+
 @media screen and (max-width: 1051px) {
     .home-page .menu-nav {
         height: 84px;
