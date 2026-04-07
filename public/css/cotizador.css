@@ -188,4 +188,11 @@
 .cotizador .recaptcha-wrap{margin-top:12px;}
 .formulario{position:sticky;top:120px;z-index:5;align-self:flex-start}
 .formulario.hidden{pointer-events:none}
+@media (max-width: 768px){
+  .cotizador .progress-bar{margin-bottom:1.35rem;align-items:flex-start}
+  .cotizador .prog-step{gap:3px;min-width:0;flex-direction:column;justify-content:flex-start;align-items:center;flex:0 1 42px}
+  .cotizador .prog-num{width:20px;height:20px;font-size:9px}
+  .cotizador .prog-label{font-size:8px;line-height:1.05;white-space:normal;text-align:center;max-width:42px}
+  .cotizador .prog-line{margin:10px 3px 0}
+}
 @media (max-width: 600px){.cotizador{padding:1.75rem 1rem 2.25rem}.cotizador .btn-row{flex-direction:column}.cotizador .btn-row .btn-outline,.cotizador .btn-row .btn-primary{width:100%}.formulario{position:static;top:auto}}
