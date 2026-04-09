@@ -1,6 +1,5 @@
-﻿const PRICES = { comun: 1200, premium: 1300 };
+﻿const PRICES = { comun: 1250, premium: 1375 };
 const MINIMUMS = { comun: 25000, premium: 30000 };
-const TOTAL_MULTIPLIER = 0.88;
 const GARAGE = "General Paz 431, San Isidro, Buenos Aires, Argentina";
 const STEP_ORDER = [
   "step-route",
@@ -19,7 +18,8 @@ let mapsOk = false,
 let acSessions = {},
   dirRenderer = null,
   lastTotalARS = 0,
-  lastMinimumApplied = false;
+  lastMinimumApplied = false,
+  lastQuoteBreakdown = null;
 const extrasSelected = new Set();
 
 const T = {
@@ -122,6 +122,10 @@ const T = {
     durationNote: "Sin tráfico · origen a destino",
     totalLabel: "Total estimado",
     minimumFareNote: "Tarifa mínima por viaje",
+    fareBreakdownTitle: "Desglose del precio",
+    farePickup: "Costo por recogida",
+    fareTrip: "Costo del viaje",
+    fareTotal: "Total",
     disclaimer:
       "<strong>Este precio es un estimado.</strong> No incluye peajes ni tiempo de espera — ambos se cotizan de forma separada con el operador. El precio final se confirma al momento de la reserva.",
     btnModify: "Modificar",
@@ -256,6 +260,10 @@ const T = {
     durationNote: "Without traffic · origin to destination",
     totalLabel: "Estimated total",
     minimumFareNote: "Minimum fare per trip",
+    fareBreakdownTitle: "Price breakdown",
+    farePickup: "Pickup cost",
+    fareTrip: "Trip cost",
+    fareTotal: "Total",
     disclaimer:
       "<strong>This price is an estimate.</strong> It does not include tolls or waiting time — both are quoted separately with the operator. The final price is confirmed at the time of booking.",
     btnModify: "Modify",
@@ -717,6 +725,10 @@ function calcRoute() {
       durationTrip: legTrip.duration.text,
       kmBaseOrigin: kmBaseToOrigin,
       kmBaseDest: kmBaseToDest,
+      baseLocation:
+        typeof legBaseToOrigin.start_location?.toJSON === "function"
+          ? legBaseToOrigin.start_location.toJSON()
+          : null,
       originRaw: origin,
       destRaw: dest,
     };
@@ -902,23 +914,52 @@ function formatTripDateForRef(dateStr) {
   return `${d}${months[m]}${y.slice(-2)}`;
 }
 
-function roundUpToNextThousand(value) {
-  return Math.ceil(value / 1000) * 1000;
+function formatARSAmount(value) {
+  const locale = lang === "es" ? "es-AR" : "en-US";
+  return "$" + Math.round(value).toLocaleString(locale);
 }
 
-function calculateQuoteTotalARS() {
+function roundUpToNext500(value) {
+  return Math.ceil(value / 500) * 500;
+}
+
+function calculateQuoteBreakdown() {
   if (!vehicle || !routeData) {
     lastMinimumApplied = false;
-    return 0;
+    lastQuoteBreakdown = null;
+    return null;
   }
   const rate = PRICES[vehicle];
   const minimum = MINIMUMS[vehicle] || 0;
-  const { kmDead, kmTrip } = routeData;
-  const baseTotal = Math.round(kmTrip * rate) + Math.round((kmDead * rate) / 4);
-  const adjustedTotal = Math.round(baseTotal * TOTAL_MULTIPLIER);
-  lastMinimumApplied = adjustedTotal < minimum;
+  const kmTrip = Number(routeData.kmTrip || 0);
+  const kmBaseOrigin = Number(routeData.kmBaseOrigin ?? routeData.kmDead ?? 0);
+  const kmBaseDest = Number(routeData.kmBaseDest ?? 0);
+  const useHalfPickup = kmTrip > kmBaseDest;
+  const pickupChargeKm = useHalfPickup ? kmBaseOrigin / 2 : kmBaseOrigin;
+  const pickupCost = roundUpToNext500(pickupChargeKm * rate);
+  const tripCost = roundUpToNext500(kmTrip * rate);
+  const subtotal = pickupCost + tripCost;
+  const total = roundUpToNext500(Math.max(subtotal, minimum));
+  lastMinimumApplied = subtotal < minimum;
+  lastQuoteBreakdown = {
+    rate,
+    minimum,
+    kmTrip,
+    kmBaseOrigin,
+    kmBaseDest,
+    useHalfPickup,
+    pickupChargeKm,
+    pickupCost,
+    tripCost,
+    subtotal,
+    total,
+  };
+  return lastQuoteBreakdown;
+}
 
-  return roundUpToNextThousand(Math.max(adjustedTotal, minimum));
+function calculateQuoteTotalARS() {
+  const breakdown = calculateQuoteBreakdown();
+  return breakdown ? breakdown.total : 0;
 }
 
 function renderQuoteSummary() {
@@ -982,6 +1023,16 @@ function renderQuoteSummary() {
   } else if (extrasEl) {
     extrasEl.style.display = "none";
   }
+
+  const fareEl = document.getElementById("fare-breakdown-summary");
+  const breakdown = lastQuoteBreakdown || calculateQuoteBreakdown();
+  if (fareEl && breakdown) {
+    fareEl.innerHTML = `
+      <div class="result-detail-row"><span class="result-detail-label">${t.farePickup}</span><span class="result-detail-value">${formatARSAmount(breakdown.pickupCost)}</span></div>
+      <div class="result-detail-row"><span class="result-detail-label">${t.fareTrip}</span><span class="result-detail-value">${formatARSAmount(breakdown.tripCost)}</span></div>
+      <div class="result-detail-row"><span class="result-detail-label">${t.fareTotal}</span><span class="result-detail-value">${formatARSAmount(breakdown.total)}</span></div>
+    `;
+  }
 }
 
 function buildQuote() {
@@ -1024,6 +1075,18 @@ function buildQuote() {
     });
     dirRenderer.setMap(gmap);
     if (routeData.result) dirRenderer.setDirections(routeData.result);
+
+    if (routeData.baseLocation?.lat && routeData.baseLocation?.lng) {
+      new google.maps.Marker({
+        map: gmap,
+        position: routeData.baseLocation,
+        title: "Rufo Transfers Base",
+        icon: {
+          url: "/public/imgs/logo.jpeg",
+          scaledSize: new google.maps.Size(44, 44),
+        },
+      });
+    }
   }, 120);
 }
 
@@ -1033,6 +1096,8 @@ function loadDevDemo() {
     origin: "Nordelta, Tigre, Buenos Aires",
     destination: "Aeropuerto Internacional Ezeiza, Buenos Aires",
     kmDead: 14.8,
+    kmBaseOrigin: 14.8,
+    kmBaseDest: 44.2,
     kmTrip: 52.4,
     durationTrip: lang === "es" ? "1 h 05 min" : "1 hr 05 min",
     firstName: "Juan",
@@ -1056,6 +1121,9 @@ function loadDevDemo() {
   routeData = {
     result: null,
     kmDead: demo.kmDead,
+    kmBaseOrigin: demo.kmBaseOrigin,
+    kmBaseDest: demo.kmBaseDest,
+    baseLocation: { lat: -34.4743, lng: -58.5138 },
     kmTrip: demo.kmTrip,
     durationTrip: demo.durationTrip,
     originRaw: demo.origin,
