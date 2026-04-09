@@ -1,5 +1,6 @@
-﻿const PRICES = { comun: 1250, premium: 1375 };
+const PRICES = { comun: 1200, premium: 1300 };
 const MINIMUMS = { comun: 25000, premium: 30000 };
+const TOTAL_MULTIPLIER = 0.88;
 const GARAGE = "General Paz 431, San Isidro, Buenos Aires, Argentina";
 const STEP_ORDER = [
   "step-route",
@@ -20,6 +21,21 @@ let acSessions = {},
   lastTotalARS = 0,
   lastMinimumApplied = false,
   lastQuoteBreakdown = null;
+const QUICK_LOCATIONS = [
+  {
+    label: "Aeroparque Newbery",
+    value: "Aeroparque Jorge Newbery, Buenos Aires",
+  },
+  {
+    label: "Aeropuerto Ezeiza",
+    value: "Aeropuerto Internacional Ezeiza, Buenos Aires",
+  },
+  { label: "Buquebus", value: "Buquebus Puerto Madero, Buenos Aires" },
+  {
+    label: "Colonia Express",
+    value: "Colonia Express Puerto Madero, Buenos Aires",
+  },
+];
 const extrasSelected = new Set();
 
 const T = {
@@ -43,7 +59,7 @@ const T = {
     routeCardLabel: "Detalle del viaje",
     originLabel: "Punto de origen",
     destLabel: "Punto de destino",
-    swapRouteBtn: "↕ Intercambiar",
+    swapRouteBtn: "Intercambiar",
     originPH: "Ej: Nordelta, Tigre",
     destPH: "Ej: Aeropuerto Internacional Ezeiza",
     btnCalcRoute: "Calcular ruta",
@@ -53,7 +69,7 @@ const T = {
     premiumName: "Premium",
     comunLuggage: "2 valijas de 23 kg<br>2 carry-on",
     premiumLuggage: "3 valijas de 23 kg<br>2 carry-on",
-    scaleMsg: "⚖ Balanza a bordo",
+    scaleMsg: "Balanza a bordo",
     scaleNote:
       "No te preocupes antes de despachar — contamos con balanza a bordo para verificar el peso de tu equipaje sin inconvenientes.",
     paxCardLabel: "Pasajeros y equipaje",
@@ -125,6 +141,7 @@ const T = {
     fareBreakdownTitle: "Desglose del precio",
     farePickup: "Costo por recogida",
     fareTrip: "Costo del viaje",
+    fareMinimumExtra: "Tarifa adicional por viaje mínimo",
     fareTotal: "Total",
     disclaimer:
       "<strong>Este precio es un estimado.</strong> No incluye peajes ni tiempo de espera — ambos se cotizan de forma separada con el operador. El precio final se confirma al momento de la reserva.",
@@ -182,7 +199,7 @@ const T = {
     routeCardLabel: "Trip details",
     originLabel: "Pickup location",
     destLabel: "Drop-off location",
-    swapRouteBtn: "↕ Swap",
+    swapRouteBtn: "Swap",
     originPH: "E.g.: Nordelta, Tigre",
     destPH: "E.g.: Ezeiza International Airport",
     btnCalcRoute: "Calculate route",
@@ -192,7 +209,7 @@ const T = {
     premiumName: "Premium",
     comunLuggage: "2 x 23 kg bags<br>2 carry-ons",
     premiumLuggage: "3 x 23 kg bags<br>2 carry-ons",
-    scaleMsg: "⚖ Scale on board",
+    scaleMsg: "Scale on board",
     scaleNote:
       "Don't worry before checking in — we have a scale on board to verify your luggage weight if needed.",
     paxCardLabel: "Passengers & luggage",
@@ -263,6 +280,7 @@ const T = {
     fareBreakdownTitle: "Price breakdown",
     farePickup: "Pickup cost",
     fareTrip: "Trip cost",
+    fareMinimumExtra: "Additional minimum fare",
     fareTotal: "Total",
     disclaimer:
       "<strong>This price is an estimate.</strong> It does not include tolls or waiting time — both are quoted separately with the operator. The final price is confirmed at the time of booking.",
@@ -615,6 +633,40 @@ function bindAutocomplete() {
   checkReady();
 }
 
+function applyQuickLocation(field, value) {
+  const input = document.getElementById(`${field}-input`);
+  if (!input) return;
+  input.value = value;
+  const list = document.getElementById(`${field}-list`);
+  if (list) list.style.display = "none";
+  acSessions[field] = null;
+  resetRouteCalculation();
+  checkReady();
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+}
+
+function initQuickLocationChips() {
+  ["origin", "dest"].forEach((field) => {
+    const input = document.getElementById(`${field}-input`);
+    if (!input) return;
+    const fieldGroup = input.closest(".field-group");
+    if (!fieldGroup || fieldGroup.querySelector(".quick-locations")) return;
+    const wrap = document.createElement("div");
+    wrap.className = "quick-locations";
+    QUICK_LOCATIONS.forEach((location) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "quick-location-chip";
+      chip.textContent = location.label;
+      chip.addEventListener("click", () =>
+        applyQuickLocation(field, location.value),
+      );
+      wrap.appendChild(chip);
+    });
+    fieldGroup.appendChild(wrap);
+  });
+}
+
 function doAC(field) {
   const input = document.getElementById(`${field}-input`);
   const list = document.getElementById(`${field}-list`);
@@ -914,13 +966,13 @@ function formatTripDateForRef(dateStr) {
   return `${d}${months[m]}${y.slice(-2)}`;
 }
 
+function roundUpToNext500(value) {
+  return Math.ceil(value / 500) * 500;
+}
+
 function formatARSAmount(value) {
   const locale = lang === "es" ? "es-AR" : "en-US";
   return "$" + Math.round(value).toLocaleString(locale);
-}
-
-function roundUpToNext500(value) {
-  return Math.ceil(value / 500) * 500;
 }
 
 function calculateQuoteBreakdown() {
@@ -931,27 +983,18 @@ function calculateQuoteBreakdown() {
   }
   const rate = PRICES[vehicle];
   const minimum = MINIMUMS[vehicle] || 0;
-  const kmTrip = Number(routeData.kmTrip || 0);
-  const kmBaseOrigin = Number(routeData.kmBaseOrigin ?? routeData.kmDead ?? 0);
-  const kmBaseDest = Number(routeData.kmBaseDest ?? 0);
-  const useHalfPickup = kmTrip > kmBaseDest;
-  const pickupChargeKm = useHalfPickup ? kmBaseOrigin / 2 : kmBaseOrigin;
-  const pickupCost = roundUpToNext500(pickupChargeKm * rate);
-  const tripCost = roundUpToNext500(kmTrip * rate);
-  const subtotal = pickupCost + tripCost;
-  const total = roundUpToNext500(Math.max(subtotal, minimum));
-  lastMinimumApplied = subtotal < minimum;
+  const { kmDead, kmTrip } = routeData;
+  const pickupCost = Math.round((kmDead * rate) / 4);
+  const tripCost = Math.round(kmTrip * rate);
+  const baseTotal = tripCost + pickupCost;
+  const adjustedTotal = Math.round(baseTotal * TOTAL_MULTIPLIER);
+  const minimumExtra = Math.max(0, minimum - adjustedTotal);
+  const total = roundUpToNext500(Math.max(adjustedTotal, minimum));
+  lastMinimumApplied = adjustedTotal < minimum;
   lastQuoteBreakdown = {
-    rate,
-    minimum,
-    kmTrip,
-    kmBaseOrigin,
-    kmBaseDest,
-    useHalfPickup,
-    pickupChargeKm,
     pickupCost,
     tripCost,
-    subtotal,
+    minimumExtra,
     total,
   };
   return lastQuoteBreakdown;
@@ -1030,6 +1073,11 @@ function renderQuoteSummary() {
     fareEl.innerHTML = `
       <div class="result-detail-row"><span class="result-detail-label">${t.farePickup}</span><span class="result-detail-value">${formatARSAmount(breakdown.pickupCost)}</span></div>
       <div class="result-detail-row"><span class="result-detail-label">${t.fareTrip}</span><span class="result-detail-value">${formatARSAmount(breakdown.tripCost)}</span></div>
+      ${
+        breakdown.minimumExtra > 0
+          ? `<div class="result-detail-row"><span class="result-detail-label">${t.fareMinimumExtra}</span><span class="result-detail-value">${formatARSAmount(breakdown.minimumExtra)}</span></div>`
+          : ""
+      }
       <div class="result-detail-row"><span class="result-detail-label">${t.fareTotal}</span><span class="result-detail-value">${formatARSAmount(breakdown.total)}</span></div>
     `;
   }
@@ -1093,8 +1141,8 @@ function buildQuote() {
 function loadDevDemo() {
   if (!isDevMode()) return;
   const demo = {
-    origin: "Nordelta, Tigre, Buenos Aires",
-    destination: "Aeropuerto Internacional Ezeiza, Buenos Aires",
+    origin: "Sofitel Cardales, Buenos Aires",
+    destination: "Aeropuerto Ezeiza, Buenos Aires",
     kmDead: 14.8,
     kmBaseOrigin: 14.8,
     kmBaseDest: 44.2,
@@ -1299,6 +1347,7 @@ function initCotizador() {
   setCurrency("ARS");
   const devBtn = document.getElementById("btn-dev-fill");
   if (devBtn && isDevMode()) devBtn.style.display = "";
+  initQuickLocationChips();
   const mapsKey = root.dataset.mapsKey || "";
   loadMaps(mapsKey);
   const params = new URLSearchParams(window.location.search);

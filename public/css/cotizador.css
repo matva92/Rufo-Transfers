@@ -18,9 +18,9 @@
 .cotizador .brand-icon{width:40px;height:40px;background:var(--accent);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .cotizador .brand-name{font-size:16px;font-weight:600;color:var(--text);letter-spacing:-.02em;line-height:1}
 .cotizador .brand-tag{font-size:11px;color:var(--text3);letter-spacing:.04em;margin-top:3px}
-.cotizador .toggles{display:flex;gap:6px;align-items:center}
+.cotizador .toggles{display:flex;gap:4px;align-items:center}
 .cotizador .toggle-group{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.cotizador .toggle-btn{padding:5px 11px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;border:none;cursor:pointer;background:transparent;color:var(--text3);transition:all .15s}
+.cotizador .toggle-btn{padding:3px 7px;font-family:'Outfit',sans-serif;font-size:11px;line-height:1.1;font-weight:500;border:none;cursor:pointer;background:transparent;color:var(--text3);transition:all .15s;white-space:nowrap}
 .cotizador .toggle-btn.active{background:var(--accent);color:#fff}
 .cotizador .toggle-btn:not(.active):hover{background:var(--surface2);color:var(--text2)}
 
@@ -74,7 +74,7 @@
 /* Autocomplete */
 .cotizador .addr-wrap{position:relative}
 .cotizador .route-swap-row{display:flex;justify-content:center;margin:-4px 0 12px}
-.cotizador .route-swap-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:7px 12px;border:1px solid var(--border);border-radius:999px;background:var(--surface2);color:var(--accent);font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.cotizador .route-swap-btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;width:auto;min-width:0;padding:4px 8px;border:1px solid var(--border);border-radius:999px;background:var(--surface2);color:var(--accent);font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
 .cotizador .route-swap-btn:hover{background:var(--accent-light);border-color:var(--accent2);color:var(--accent2)}
 .cotizador .route-swap-btn:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(26,58,92,.12)}
 .cotizador .pac-list{position:absolute;z-index:999;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-sm);overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.1)}
@@ -82,6 +82,10 @@
 .cotizador .pac-item:last-child{border-bottom:none}
 .cotizador .pac-item:hover{background:var(--surface2)}
 .cotizador .pac-dot{width:5px;height:5px;border-radius:50%;background:var(--border2);flex-shrink:0;margin-top:6px}
+.cotizador .quick-locations{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.cotizador .quick-location-chip{display:flex;align-items:center;justify-content:center;width:100%;min-width:0;border:1px solid var(--border);background:var(--surface2);color:var(--text2);border-radius:999px;padding:6px 6px;font-family:'Outfit',sans-serif;font-size:10px;font-weight:500;line-height:1.15;cursor:pointer;transition:background .15s,border-color .15s,color .15s;white-space:normal;text-align:center}
+.cotizador .quick-location-chip:hover{background:var(--accent-light);border-color:var(--accent2);color:var(--accent2)}
+.cotizador .quick-location-chip:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(26,58,92,.12)}
 
 /* Vehicle */
 .cotizador .vehicle-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -195,4 +199,4 @@
   .cotizador .prog-label{font-size:8px;line-height:1.05;white-space:normal;text-align:center;max-width:42px}
   .cotizador .prog-line{margin:10px 3px 0}
 }
-@media (max-width: 600px){.cotizador{padding:1.75rem 1rem 2.25rem}.cotizador .btn-row{flex-direction:column}.cotizador .btn-row .btn-outline,.cotizador .btn-row .btn-primary{width:100%}.formulario{position:static;top:auto}}
+@media (max-width: 600px){.cotizador{padding:1.75rem 1rem 2.25rem}.cotizador .btn-row{flex-direction:column}.cotizador .btn-row .btn-outline,.cotizador .btn-row .btn-primary{width:100%}.cotizador .quick-locations{grid-template-columns:repeat(2,minmax(0,1fr))}.formulario{position:static;top:auto}}
