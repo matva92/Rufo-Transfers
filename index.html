@@ -169,10 +169,16 @@
   <div class="container-fluid">
     <div class="row menu-nav">
       <div class="col-xm-12">
-        <a class="mobile-language-switch" href="/english.html" aria-label="Idioma actual: Español. Cambiar a English">
-          <img src="public/imgs/spain.png" alt="Español">
-          <span>ES</span>
-        </a>
+        <details class="language-dropdown mobile-language-dropdown">
+          <summary class="language-summary" aria-label="Seleccionar idioma">ES</summary>
+          <ul class="language-menu">
+            <li><a href="/" aria-current="page">Español</a></li>
+            <li><a href="/english.html">English</a></li>
+            <li><a href="/italiano.html">Italiano</a></li>
+            <li><a href="/portugues.html">Português</a></li>
+            <li><a href="/german.html">Deutsch</a></li>
+          </ul>
+        </details>
         <!-- Rufo Driver -->
         <div class="logo rmp"> <a href="/"> Rufo Transfers </a></div>
         <nav class="navbar">
@@ -180,12 +186,18 @@
             <li><a class="fwhite" href="#acerca">Acerca</a></li>
             <li><a class="fwhite" href="#servicios">Servicios</a></li>
             <li><a class="fwhite" href="/historias/">Historias</a></li>
-            <li class="flags"><a class="fwhite money" href="/english.html"><img
-                  src="public/imgs/usa.png" alt="english text">
-                English</a></li>
-            <li><a class="fwhite money" href="/italiano.html">Italiano</a></li>
-            <li><a class="fwhite money" href="/portugues.html">Portugues</a></li>
-            <li><a class="fwhite money" href="/german.html">Deutsch</a></li>
+            <li class="flags language-dropdown-desktop">
+              <details class="language-dropdown">
+                <summary class="language-summary">ES</summary>
+                <ul class="language-menu">
+                  <li><a href="/" aria-current="page">Español</a></li>
+                  <li><a href="/english.html">English</a></li>
+                  <li><a href="/italiano.html">Italiano</a></li>
+                  <li><a href="/portugues.html">Português</a></li>
+                  <li><a href="/german.html">Deutsch</a></li>
+                </ul>
+              </details>
+            </li>
           </ul>
         </nav>
       </div>

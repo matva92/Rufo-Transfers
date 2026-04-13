@@ -179,10 +179,16 @@
   <div class="container-fluid">
     <div class="row menu-nav">
       <div class="col-xm-12">
-        <a class="mobile-language-switch" href="/" aria-label="Current language: English. Change to Español">
-          <img src="public/imgs/usa.png" alt="English">
-          <span>EN</span>
-        </a>
+        <details class="language-dropdown mobile-language-dropdown">
+          <summary class="language-summary" aria-label="Select language">EN</summary>
+          <ul class="language-menu">
+            <li><a href="/">Español</a></li>
+            <li><a href="/english.html" aria-current="page">English</a></li>
+            <li><a href="/italiano.html">Italiano</a></li>
+            <li><a href="/portugues.html">Português</a></li>
+            <li><a href="/german.html">Deutsch</a></li>
+          </ul>
+        </details>
         <!-- Rufo Driver -->
         <div class="logo rmp"> <a href="/english.html"> Rufo Transfers </a></div>
         <nav class="navbar">
@@ -190,12 +196,18 @@
             <li><a class="fwhite" href="#about">About</a></li>
             <li><a class="fwhite" href="#services">Services</a></li>
             <li><a class="fwhite" href="/historias/">Stories</a></li>
-            <li class="flags"><a class="fwhite money" href="/"><img
-                  src="public/imgs/spain.png" alt="texto Español">
-                Español</a></li>
-            <li><a class="fwhite money" href="/italiano.html">Italiano</a></li>
-            <li><a class="fwhite money" href="/portugues.html">Portugues</a></li>
-            <li><a class="fwhite money" href="/german.html">Deutsch</a></li>
+            <li class="flags language-dropdown-desktop">
+              <details class="language-dropdown">
+                <summary class="language-summary">EN</summary>
+                <ul class="language-menu">
+                  <li><a href="/">Español</a></li>
+                  <li><a href="/english.html" aria-current="page">English</a></li>
+                  <li><a href="/italiano.html">Italiano</a></li>
+                  <li><a href="/portugues.html">Português</a></li>
+                  <li><a href="/german.html">Deutsch</a></li>
+                </ul>
+              </details>
+            </li>
           </ul>
         </nav>
       </div>

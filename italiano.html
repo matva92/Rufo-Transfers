@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="it">
 
 <head>
@@ -179,10 +179,16 @@
   <div class="container-fluid">
     <div class="row menu-nav">
       <div class="col-xm-12">
-        <a class="mobile-language-switch" href="/" aria-label="Lingua attuale: Italiano. Passa a Espanol">
-          <img src="public/imgs/usa.png" alt="English">
-          <span>IT</span>
-        </a>
+        <details class="language-dropdown mobile-language-dropdown">
+          <summary class="language-summary" aria-label="Seleziona lingua">IT</summary>
+          <ul class="language-menu">
+            <li><a href="/">Español</a></li>
+            <li><a href="/english.html">English</a></li>
+            <li><a href="/italiano.html" aria-current="page">Italiano</a></li>
+            <li><a href="/portugues.html">Português</a></li>
+            <li><a href="/german.html">Deutsch</a></li>
+          </ul>
+        </details>
         <!-- Rufo Driver -->
         <div class="logo rmp"> <a href="/italiano.html"> Rufo Transfers </a></div>
         <nav class="navbar">
@@ -190,12 +196,18 @@
             <li><a class="fwhite" href="#about">Chi siamo</a></li>
             <li><a class="fwhite" href="#services">Servizi</a></li>
             <li><a class="fwhite" href="/historias/">Storie</a></li>
-            <li class="flags"><a class="fwhite money" href="/"><img
-                  src="public/imgs/spain.png" alt="texto Español">
-                Español</a></li>
-            <li><a class="fwhite money" href="/english.html">English</a></li>
-            <li><a class="fwhite money" href="/portugues.html">Portugues</a></li>
-            <li><a class="fwhite money" href="/german.html">Deutsch</a></li>
+            <li class="flags language-dropdown-desktop">
+              <details class="language-dropdown">
+                <summary class="language-summary">IT</summary>
+                <ul class="language-menu">
+                  <li><a href="/">Español</a></li>
+                  <li><a href="/english.html">English</a></li>
+                  <li><a href="/italiano.html" aria-current="page">Italiano</a></li>
+                  <li><a href="/portugues.html">Português</a></li>
+                  <li><a href="/german.html">Deutsch</a></li>
+                </ul>
+              </details>
+            </li>
           </ul>
         </nav>
       </div>
@@ -205,7 +217,7 @@
 
   <section class="hero-shell" aria-label="Hero principale">
     <div class="hero-card">
-      <p class="hero-kicker">Rufo Transfers · Buenos Aires</p>
+      <p class="hero-kicker">Rufo Transfers - Buenos Aires</p>
       <h1>Transfer privati con puntualita, comfort e attenzione personalizzata.</h1>
       <p class="hero-sub">Servizi da e verso Ezeiza, in citta e media distanza con prenotazione anticipata.</p>
       <div class="hero-actions">
@@ -220,7 +232,7 @@
     <div class="row row-form" id="quote-form">
       <div class="col-xm-10 col-sm-6 col-md-6 col-lg-6 formulario">
         <div class="cotizador" data-maps-key="AIzaSyDfc5puC5-25Kc3NGhX-cFoQgb2jce92Do">
-          <form id="cotizador-form" name="ingles" action="/.netlify/functions/send-quote" method="POST" netlify data-netlify-recaptcha="true">
+          <form id="cotizador-form" name="italiano" action="/.netlify/functions/send-quote" method="POST" netlify data-netlify-recaptcha="true">
             <input type="hidden" name="form-name" value="italiano">
             <input type="hidden" name="language" id="lang-input" value="it">
             <input type="hidden" name="currency" id="currency-input" value="ARS">
@@ -323,7 +335,7 @@
                       <div class="vcard-scale" data-t="scaleMsg">&#9878; Scale on board</div>
                     </div>
                   </div>
-                  <p style="font-size:12px;color:var(--text3);margin-top:12px;line-height:1.6;" data-t="scaleNote">Don't worry before checking in — we have a scale on board to verify your luggage weight if needed.</p>
+                  <p style="font-size:12px;color:var(--text3);margin-top:12px;line-height:1.6;" data-t="scaleNote">Don't worry before checking in - we have a scale on board to verify your luggage weight if needed.</p>
                 </div>
                 <div class="card">
                   <span class="card-label" data-t="paxCardLabel">Passengers & luggage</span>
@@ -432,7 +444,7 @@
                 </div>
                 <div class="card">
                   <span class="card-label" data-t="extrasCardLabel">Additional services</span>
-                  <p style="font-size:12px;color:var(--text3);margin-bottom:1rem;line-height:1.5;" data-t="extrasNote">All optional — extra cost (ask separately). They help us prepare your trip better.</p>
+                  <p style="font-size:12px;color:var(--text3);margin-bottom:1rem;line-height:1.5;" data-t="extrasNote">All optional - extra cost (ask separately). They help us prepare your trip better.</p>
                   <div class="extras-grid">
 
                     <div class="extra-card" id="ex-agua" onclick="toggleExtra('agua')">
@@ -562,25 +574,25 @@
                 <div class="metrics-row">
                   <div class="metric">
                     <div class="metric-label" data-t="metricDist">Distance</div>
-                    <div class="metric-value" id="r-km">—</div>
+                    <div class="metric-value" id="r-km">-</div>
                     <div class="metric-unit" data-t="metricKm">kilometers</div>
                   </div>
                   <div class="metric">
                     <div class="metric-label" data-t="metricPax">Passengers</div>
-                    <div class="metric-value" id="r-pax">—</div>
+                    <div class="metric-value" id="r-pax">-</div>
                     <div class="metric-unit" data-t="metricPersons">people</div>
                   </div>
                   <div class="metric">
                     <div class="metric-label" data-t="metricLuggage">Luggage</div>
-                    <div class="metric-value" id="r-luggage">—</div>
+                    <div class="metric-value" id="r-luggage">-</div>
                     <div class="metric-unit" data-t="metricSuitcases">bags</div>
                   </div>
                 </div>
 
                 <div class="duration-card">
                   <span class="card-label" style="margin-bottom:6px;" data-t="durationLabel">Estimated duration</span>
-                  <div class="duration-value" id="r-time">—</div>
-                  <div class="duration-note" data-t="durationNote">Without traffic · origin to destination</div>
+                  <div class="duration-value" id="r-time">-</div>
+                  <div class="duration-note" data-t="durationNote">Without traffic - origin to destination</div>
                 </div>
 
                 <div class="result-detail" id="passenger-summary"></div>
@@ -592,13 +604,13 @@
 
                 <div class="total-card">
                   <div class="total-label" data-t="totalLabel">Estimated total</div>
-                  <div class="total-value" id="total-value">—</div>
-                  <div class="total-currency" id="total-currency">Argentine pesos · ARS</div>
+                  <div class="total-value" id="total-value">-</div>
+                  <div class="total-currency" id="total-currency">Argentine pesos - ARS</div>
                   <div class="total-minimum-note" id="total-minimum-note" style="display:none;"></div>
                   <div class="total-rate" id="total-rate" style="display:none;"></div>
                 </div>
 
-                <div class="disclaimer" data-t="disclaimer"><strong>This price is an estimate.</strong> It does not include tolls or waiting time — both are quoted separately with the operator. The final price is confirmed at the time of booking.</div>
+                <div class="disclaimer" data-t="disclaimer"><strong>This price is an estimate.</strong> It does not include tolls or waiting time - both are quoted separately with the operator. The final price is confirmed at the time of booking.</div>
 
                 <div class="recaptcha-wrap">
                   <div data-netlify-recaptcha="true"></div>
@@ -614,11 +626,11 @@
                 <div class="card">
                   <div class="confirm-box">
                     <div class="confirm-icon">&#9989;</div>
-                    <div class="confirm-title" data-t="confirmTitle">Request sent!</div>
-                    <div class="confirm-sub" data-t="confirmSub">Your request has been received by the sales team. We will contact you within 24 hours to confirm your transfer details.</div>
+                    <div class="confirm-title" data-t="confirmTitle">Richiesta inviata!</div>
+                    <div class="confirm-sub" data-t="confirmSub">La tua richiesta e stata ricevuta. Ti contatteremo entro 24 ore per confermare i dettagli del transfer.</div>
                     <div class="ref-box">
                       <div class="ref-label" data-t="refLabel">Reference number</div>
-                      <div class="ref-value" id="ref-number">—</div>
+                      <div class="ref-value" id="ref-number">-</div>
                     </div>
                     <button type="button" class="btn btn-primary" onclick="location.reload()" data-t="btnNewQuote" style="max-width:260px;margin:0 auto;">New quote</button>
                   </div>
@@ -630,77 +642,77 @@
       </div>
     </div>
   </div>
-  <section class="home-sections" aria-label="Rufo Transfers information">
+  <section class="home-sections" aria-label="Informazioni su Rufo Transfers">
     <div class="content-shell">
       <article class="content-card about-card" id="about">
         <span class="kicker">Chi siamo</span>
-        <h2>Private transfers with personalized service in Buenos Aires.</h2>
-        <p>Rufo Transfers provides door-to-door rides for passengers looking for comfort, punctuality and direct communication with the driver.</p>
-        <p>Every booking is handled in advance with route and schedule confirmation, so your trip is clear from the first message.</p>
+        <h2>Transfer privati con attenzione personalizzata a Buenos Aires.</h2>
+        <p>Rufo Transfers offre viaggi porta a porta per passeggeri che cercano comfort, puntualita e comunicazione diretta con l'autista.</p>
+        <p>Ogni prenotazione viene gestita in anticipo con conferma di percorso e orario, cosi il viaggio e chiaro fin dal primo messaggio.</p>
       </article>
 
       <article class="content-card history-card" id="company-history">
         <span class="kicker">Storia</span>
-        <h2>A company built one trip at a time.</h2>
+        <h2>Un'azienda costruita viaggio dopo viaggio.</h2>
         <div class="timeline-grid">
           <div class="timeline-item">
             <strong>2018</strong>
-            <p>Operations started with a focus on private rides and human service.</p>
+            <p>Avvio delle operazioni con focus su transfer privati e servizio umano.</p>
           </div>
           <div class="timeline-item">
             <strong>2020</strong>
-            <p>Consolidation in airport routes, business transfers and medium-distance services.</p>
+            <p>Consolidamento su tratte aeroportuali, transfer business e servizi di media distanza.</p>
           </div>
           <div class="timeline-item">
-            <strong>Today</strong>
-            <p>Bilingual support, online quote and service details tailored to each passenger.</p>
+            <strong>Oggi</strong>
+            <p>Supporto bilingue, preventivo online e servizio adattato a ogni passeggero.</p>
           </div>
         </div>
       </article>
 
       <article class="content-card services-card" id="services">
         <span class="kicker">Servizi inclusi</span>
-        <h2>What you get on every transfer.</h2>
+        <h2>Cosa include ogni transfer.</h2>
         <div class="service-grid">
           <div class="service-item">
-            <h3>Pre-trip planning</h3>
-            <p>Trip route, schedule and references confirmed before departure.</p>
+            <h3>Pianificazione anticipata</h3>
+            <p>Percorso, orario e riferimenti confermati prima della partenza.</p>
           </div>
           <div class="service-item">
-            <h3>Luggage assistance</h3>
-            <p>Support during loading and unloading, plus capacity checks by vehicle type.</p>
+            <h3>Assistenza bagagli</h3>
+            <p>Aiuto in carico e scarico, con verifica della capacita in base al veicolo.</p>
           </div>
           <div class="service-item">
-            <h3>Comfort on route</h3>
-            <p>Air conditioning/heating and personalized ride preferences.</p>
+            <h3>Comfort durante il viaggio</h3>
+            <p>Aria condizionata/riscaldamento e preferenze personalizzate.</p>
           </div>
           <div class="service-item">
-            <h3>Direct communication</h3>
-            <p>Simple WhatsApp contact to solve changes and questions quickly.</p>
+            <h3>Comunicazione diretta</h3>
+            <p>Contatto rapido via WhatsApp per cambi e dubbi in tempo reale.</p>
           </div>
         </div>
       </article>
 
       <article class="content-card photos-card" id="photos">
         <span class="kicker">Foto</span>
-        <h2>Service snapshots.</h2>
+        <h2>Alcune immagini del servizio.</h2>
         <div class="photo-grid">
           <figure class="photo-item">
-            <img src="/public/imgs/auto.jpeg" alt="Rufo Transfers driver ready for pickup">
-            <figcaption>Professional and close attention.</figcaption>
+            <img src="/public/imgs/auto.jpeg" alt="Autista Rufo Transfers pronto per un transfer">
+            <figcaption>Attenzione professionale e vicina.</figcaption>
           </figure>
           <figure class="photo-item photo-item-logo">
-            <img src="/public/imgs/logo.jpeg" alt="Rufo Transfers visual identity">
-            <figcaption>Private service with a clear identity.</figcaption>
+            <img src="/public/imgs/logo.jpeg" alt="Identita visiva Rufo Transfers">
+            <figcaption>Servizio privato con identita propria.</figcaption>
           </figure>
           <figure class="photo-item">
-            <img src="/public/imgs/background.webp" alt="Urban route view during a transfer in Buenos Aires">
-            <figcaption>Urban and medium-distance rides.</figcaption>
+            <img src="/public/imgs/background.webp" alt="Vista urbana durante un transfer a Buenos Aires">
+            <figcaption>Viaggi urbani e di media distanza.</figcaption>
           </figure>
         </div>
         <div class="section-actions">
-          <a class="section-btn" href="https://api.whatsapp.com/send?phone=541126807156&text=Hi,%20I%20reached%20to%20you%20from%20your%20website.%20I%20would%20like%20to%20travel%20from...%20to...%20%C2%BFPrice?" target="_blank" rel="noopener noreferrer">Book via WhatsApp</a>
-          <a class="section-btn section-btn-muted" href="/historias/">Read stories</a>
+          <a class="section-btn" href="https://api.whatsapp.com/send?phone=541126807156&text=Hi,%20I%20reached%20to%20you%20from%20your%20website.%20I%20would%20like%20to%20travel%20from...%20to...%20%C2%BFPrice?" target="_blank" rel="noopener noreferrer">Prenota via WhatsApp</a>
+          <a class="section-btn section-btn-muted" href="/historias/">Leggi storie</a>
         </div>
       </article>
     </div>
@@ -710,12 +722,12 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <h2>Rufo Transfers</h2>
-        <p>Private transfers in Buenos Aires for passengers who value punctuality, comfort and direct communication.</p>
+        <p>Transfer privati a Buenos Aires per passeggeri che valorizzano puntualita, comfort e comunicazione diretta.</p>
       </div>
-      <nav class="footer-col" aria-label="Main navigation">
-        <h3>Navigation</h3>
+      <nav class="footer-col" aria-label="Navigazione principale">
+        <h3>Navigazione</h3>
         <ul class="footer-list">
-          <li><a href="/english.html">Home</a></li>
+          <li><a href="/italiano.html">Inizio</a></li>
           <li><a href="#about">Chi siamo</a></li>
           <li><a href="#services">Servizi</a></li>
           <li><a href="/historias/">Storie</a></li>
@@ -723,9 +735,9 @@
         </ul>
       </nav>
       <div class="footer-col footer-actions-col">
-        <h3>Bookings</h3>
+        <h3>Prenotazioni</h3>
         <div class="footer-cta-wrap">
-          <a class="section-btn" href="#quote-form">Fill the form</a>
+          <a class="section-btn" href="#quote-form">Compila il modulo</a>
           <a class="section-btn section-btn-muted" href="https://api.whatsapp.com/send?phone=541126807156&text=Hi,%20I%20reached%20to%20you%20from%20your%20website.%20I%20would%20like%20to%20travel%20from...%20to...%20%C2%BFPrice?" target="_blank" rel="noopener noreferrer">WhatsApp</a>
         </div>
         <ul class="footer-list footer-social">
@@ -735,9 +747,9 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2026 Rufo Transfers. All rights reserved.</span>
-      <span>Full legal and policy pages are being prepared.</span>
-      <span class="footer-credit">Developed by <a href="https://varelar.com" target="_blank" rel="noopener noreferrer">Matias Varela</a></span>
+      <span>&copy; 2026 Rufo Transfers. Tutti i diritti riservati.</span>
+      <span>Pagine legali e policy complete in preparazione.</span>
+      <span class="footer-credit">Sviluppato da <a href="https://varelar.com" target="_blank" rel="noopener noreferrer">Matias Varela</a></span>
     </div>
   </footer>
 
