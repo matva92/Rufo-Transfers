@@ -320,16 +320,136 @@ const T = {
   },
 };
 
+T.it = {
+  ...T.en,
+  brandName: "Transfer",
+  brandTag: "Preventivo",
+  setupEye: "Configurazione",
+  step3: "Dati",
+  routeCardLabel: "Dettagli del viaggio",
+  originLabel: "Luogo di partenza",
+  destLabel: "Destinazione",
+  btnCalcRoute: "Calcola percorso",
+  loadingRoute: "Calcolo percorso...",
+  passengerCardLabel: "Dati passeggero",
+  tripDateLabel: "Data del viaggio",
+  pickupTimeLabel: 'Orario di ritiro <span class="optional-tag">(opzionale)</span>',
+  arrivalTimeLabel:
+    'Orario massimo di arrivo <span class="optional-tag">(opzionale)</span>',
+  btnViewQuote: "Vedi preventivo",
+  extrasCardLabel: "Servizi aggiuntivi",
+  commentsLabel: "Commenti aggiuntivi",
+  durationLabel: "Durata stimata",
+  totalLabel: "Totale stimato",
+  fareBreakdownTitle: "Dettaglio del prezzo",
+  farePickup: "Costo di prelievo",
+  fareTrip: "Costo del viaggio",
+  fareMinimumExtra: "Supplemento tariffa minima",
+  btnSubmit: "Invia richiesta al team vendite",
+  confirmTitle: "Richiesta inviata!",
+  confirmSub:
+    "La tua richiesta e stata ricevuta. Ti contatteremo entro 24 ore per confermare i dettagli del transfer.",
+  submitError: "Non e stato possibile inviare il modulo. Riprova.",
+};
+
+T.pt = {
+  ...T.en,
+  brandName: "Traslados",
+  brandTag: "Orcamento",
+  setupEye: "Configuracao",
+  step3: "Dados",
+  routeCardLabel: "Detalhes da viagem",
+  originLabel: "Origem",
+  destLabel: "Destino",
+  btnCalcRoute: "Calcular rota",
+  loadingRoute: "Calculando rota...",
+  passengerCardLabel: "Dados do passageiro",
+  tripDateLabel: "Data da viagem",
+  pickupTimeLabel: 'Horario de embarque <span class="optional-tag">(opcional)</span>',
+  arrivalTimeLabel:
+    'Horario limite de chegada <span class="optional-tag">(opcional)</span>',
+  btnViewQuote: "Ver orcamento",
+  extrasCardLabel: "Servicos adicionais",
+  commentsLabel: "Comentarios adicionais",
+  durationLabel: "Duracao estimada",
+  totalLabel: "Total estimado",
+  fareBreakdownTitle: "Detalhamento de preco",
+  farePickup: "Custo de recolhimento",
+  fareTrip: "Custo da viagem",
+  fareMinimumExtra: "Adicional de tarifa minima",
+  btnSubmit: "Enviar solicitacao para a equipe comercial",
+  confirmTitle: "Solicitacao enviada!",
+  confirmSub:
+    "Recebemos sua solicitacao. Entraremos em contato em ate 24 horas para confirmar os detalhes do traslado.",
+  submitError: "Nao foi possivel enviar o formulario. Tente novamente.",
+};
+
+T.de = {
+  ...T.en,
+  brandName: "Transfers",
+  brandTag: "Angebot",
+  setupEye: "Einrichtung",
+  step3: "Daten",
+  routeCardLabel: "Fahrtdetails",
+  originLabel: "Abholort",
+  destLabel: "Zielort",
+  btnCalcRoute: "Route berechnen",
+  loadingRoute: "Route wird berechnet...",
+  passengerCardLabel: "Passagierdaten",
+  tripDateLabel: "Fahrtdatum",
+  pickupTimeLabel: 'Abholzeit <span class="optional-tag">(optional)</span>',
+  arrivalTimeLabel:
+    'Spaeteste Ankunftszeit <span class="optional-tag">(optional)</span>',
+  btnViewQuote: "Angebot anzeigen",
+  extrasCardLabel: "Zusaetzliche Services",
+  commentsLabel: "Zusaetzliche Kommentare",
+  durationLabel: "Geschaetzte Dauer",
+  totalLabel: "Geschaetzter Gesamtpreis",
+  fareBreakdownTitle: "Preisaufschluesselung",
+  farePickup: "Abholkosten",
+  fareTrip: "Fahrtkosten",
+  fareMinimumExtra: "Zuschlag Mindesttarif",
+  btnSubmit: "Anfrage an das Vertriebsteam senden",
+  confirmTitle: "Anfrage gesendet!",
+  confirmSub:
+    "Ihre Anfrage wurde empfangen. Wir kontaktieren Sie innerhalb von 24 Stunden, um die Transferdetails zu bestaetigen.",
+  submitError: "Das Formular konnte nicht gesendet werden. Bitte erneut versuchen.",
+};
+
+const PATH_BY_LANG = {
+  es: "/",
+  en: "/english.html",
+  it: "/italiano.html",
+  pt: "/portugues.html",
+  de: "/german.html",
+};
+
+const LOCALE_BY_LANG = {
+  es: "es-AR",
+  en: "en-US",
+  it: "it-IT",
+  pt: "pt-BR",
+  de: "de-DE",
+};
+
+function detectPathLang(pathname) {
+  const normalized = (pathname || "").toLowerCase();
+  if (normalized.includes("english")) return "en";
+  if (normalized.includes("italiano")) return "it";
+  if (normalized.includes("portugues")) return "pt";
+  if (normalized.includes("german")) return "de";
+  return "es";
+}
+
 function setLang(l) {
-  const pathname = (window.location.pathname || "").toLowerCase();
-  const currentPathLang = pathname.includes("english") ? "en" : "es";
+  const currentPathLang = detectPathLang(window.location.pathname || "");
   if (l !== currentPathLang) {
-    const target = l === "en" ? "/english.html" : "/";
+    const target = PATH_BY_LANG[l] || PATH_BY_LANG.es;
     window.location.href = `${target}${window.location.search || ""}`;
     return;
   }
 
-  lang = l;
+  lang = T[l] ? l : "es";
   const esBtn = document.getElementById("lang-es");
   const enBtn = document.getElementById("lang-en");
   if (esBtn && enBtn) {
@@ -934,7 +1054,8 @@ function formatTripDateForDisplay(dateStr) {
   if (!dateStr) return "";
   const d = new Date(`${dateStr}T00:00:00`);
   if (Number.isNaN(d.getTime())) return dateStr;
-  return d.toLocaleDateString(lang === "es" ? "es-AR" : "en-US", {
+  const locale = LOCALE_BY_LANG[lang] || "en-US";
+  return d.toLocaleDateString(locale, {
     year: "numeric",
     month: "short",
     day: "2-digit",
@@ -971,7 +1092,7 @@ function roundUpToNext500(value) {
 }
 
 function formatARSAmount(value) {
-  const locale = lang === "es" ? "es-AR" : "en-US";
+  const locale = LOCALE_BY_LANG[lang] || "en-US";
   return "$" + Math.round(value).toLocaleString(locale);
 }
 
@@ -1342,7 +1463,8 @@ function initCotizador() {
   }
   initProgressNavigation();
   const langInput = document.getElementById("lang-input");
-  const initialLang = langInput && langInput.value === "en" ? "en" : "es";
+  const initialLang =
+    langInput && T[langInput.value] ? langInput.value : detectPathLang(window.location.pathname || "");
   setLang(initialLang);
   setCurrency("ARS");
   const devBtn = document.getElementById("btn-dev-fill");

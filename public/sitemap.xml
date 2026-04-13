@@ -10,6 +10,24 @@
     <loc>https://rufotransfers.com/english.html</loc>
     <lastmod>2026-04-13</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://rufotransfers.com/italiano.html</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://rufotransfers.com/portugues.html</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://rufotransfers.com/german.html</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
