@@ -2,6 +2,7 @@ const BREVO_URL = 'https://api.brevo.com/v3/smtp/email';
 const RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 const SIMPLE_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_FORM_FILL_MS = 4000;
+const CAPTCHA_DEBUG = process.env.CAPTCHA_DEBUG === '1';
 
 function getClientIp(event) {
   const forwarded = event.headers?.['x-forwarded-for'] || event.headers?.['X-Forwarded-For'] || '';
@@ -156,10 +157,17 @@ exports.handler = async (event) => {
       codes: recaptcha.codes || [],
       ip: clientIp || 'unknown',
     });
+    const body = { ok: false, message: 'Captcha validation failed' };
+    if (CAPTCHA_DEBUG) {
+      body.reason = recaptcha.reason;
+      if (Array.isArray(recaptcha.codes) && recaptcha.codes.length > 0) {
+        body.codes = recaptcha.codes;
+      }
+    }
     return {
       statusCode: 400,
       headers: { 'content-type': 'application/json; charset=utf-8' },
-      body: JSON.stringify({ ok: false, message: 'Captcha validation failed' }),
+      body: JSON.stringify(body),
     };
   }
 
