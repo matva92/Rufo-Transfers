@@ -625,7 +625,17 @@ function showStep(stepId) {
   const step = document.getElementById(stepId);
   if (step) step.classList.add("active");
   updateProgressNavigation();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  scrollToFormStart();
+}
+
+function scrollToFormStart() {
+  const anchor =
+    document.getElementById("cotizar") ||
+    document.getElementById("quote-form") ||
+    document.querySelector(".row-form");
+  if (!anchor) return;
+  const top = Math.max(0, window.scrollY + anchor.getBoundingClientRect().top - 12);
+  window.scrollTo({ top, behavior: "smooth" });
 }
 
 function setCurrency(c) {
@@ -1391,6 +1401,7 @@ async function submitQuote(evt) {
     goTo("step-result", "step-confirm");
     return;
   }
+  ensureFormStartedAt(form);
   try {
     const action = form.getAttribute("action") || "/";
     const payload = new URLSearchParams(new FormData(form));
@@ -1433,7 +1444,7 @@ function goTo(from, to) {
   if (fromEl) fromEl.classList.remove("active");
   if (toEl) toEl.classList.add("active");
   updateProgressNavigation();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  scrollToFormStart();
 }
 
 function showErr(id, msg) {
@@ -1441,6 +1452,13 @@ function showErr(id, msg) {
   if (!el) return;
   el.textContent = msg;
   el.style.display = "block";
+}
+
+function ensureFormStartedAt(form) {
+  if (!form) return;
+  const field = form.querySelector("#form-started-at");
+  if (!field) return;
+  if (!field.value) field.value = String(Date.now());
 }
 
 document.addEventListener("click", (e) => {
@@ -1457,6 +1475,7 @@ function initCotizador() {
   if (!root) return;
   const form = document.getElementById("cotizador-form");
   if (form) {
+    ensureFormStartedAt(form);
     form.addEventListener("submit", submitQuote);
     form.addEventListener("input", updateProgressNavigation);
     form.addEventListener("change", updateProgressNavigation);

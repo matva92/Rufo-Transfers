@@ -1,5 +1,81 @@
 const BREVO_URL = 'https://api.brevo.com/v3/smtp/email';
+const RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 const SIMPLE_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MIN_FORM_FILL_MS = 4000;
+
+function getClientIp(event) {
+  const forwarded = event.headers?.['x-forwarded-for'] || event.headers?.['X-Forwarded-For'] || '';
+  if (!forwarded) return '';
+  return String(forwarded).split(',')[0].trim();
+}
+
+function getRecaptchaToken(data = {}) {
+  return String(
+    data['g-recaptcha-response'] ||
+      data.gRecaptchaResponse ||
+      data.recaptchaToken ||
+      '',
+  ).trim();
+}
+
+function validateFormTiming(data = {}) {
+  const startedAtRaw = String(data.form_started_at || '').trim();
+  if (!startedAtRaw) return false;
+  const startedAt = Number(startedAtRaw);
+  if (!Number.isFinite(startedAt)) return false;
+  if (startedAt > Date.now() + 30000) return false;
+  return Date.now() - startedAt >= MIN_FORM_FILL_MS;
+}
+
+async function verifyRecaptchaToken(token, remoteIp = '') {
+  const secret =
+    process.env.RECAPTCHA_SECRET_KEY ||
+    process.env.GOOGLE_RECAPTCHA_SECRET ||
+    process.env.NETLIFY_RECAPTCHA_SECRET ||
+    '';
+  if (!secret) {
+    console.error('Missing reCAPTCHA secret env var');
+    return { ok: false, reason: 'missing-secret' };
+  }
+  if (!token) return { ok: false, reason: 'missing-token' };
+
+  const body = new URLSearchParams();
+  body.append('secret', secret);
+  body.append('response', token);
+  if (remoteIp) body.append('remoteip', remoteIp);
+
+  try {
+    const res = await fetch(RECAPTCHA_VERIFY_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      body: body.toString(),
+    });
+    const parsed = await res.json();
+    if (!res.ok) {
+      return { ok: false, reason: `provider-http-${res.status}` };
+    }
+    if (!parsed || parsed.success !== true) {
+      return {
+        ok: false,
+        reason: 'provider-rejected',
+        codes: Array.isArray(parsed?.['error-codes']) ? parsed['error-codes'] : [],
+      };
+    }
+
+    const expectedHostname = process.env.RECAPTCHA_EXPECTED_HOSTNAME || '';
+    if (
+      expectedHostname &&
+      parsed.hostname &&
+      String(parsed.hostname).toLowerCase() !== expectedHostname.toLowerCase()
+    ) {
+      return { ok: false, reason: 'hostname-mismatch' };
+    }
+
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, reason: err?.message || 'verify-failed' };
+  }
+}
 
 function escapeHtml(value = '') {
   return String(value)
@@ -54,6 +130,38 @@ exports.handler = async (event) => {
     : (event.body || '');
   const params = new URLSearchParams(rawBody);
   const data = Object.fromEntries(params);
+  const clientIp = getClientIp(event);
+
+  if (String(data.company || '').trim()) {
+    return {
+      statusCode: 400,
+      headers: { 'content-type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({ ok: false, message: 'Validation failed' }),
+    };
+  }
+
+  if (!validateFormTiming(data)) {
+    return {
+      statusCode: 400,
+      headers: { 'content-type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({ ok: false, message: 'Validation failed' }),
+    };
+  }
+
+  const recaptchaToken = getRecaptchaToken(data);
+  const recaptcha = await verifyRecaptchaToken(recaptchaToken, clientIp);
+  if (!recaptcha.ok) {
+    console.warn('Rejected by captcha validation', {
+      reason: recaptcha.reason,
+      codes: recaptcha.codes || [],
+      ip: clientIp || 'unknown',
+    });
+    return {
+      statusCode: 400,
+      headers: { 'content-type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({ ok: false, message: 'Captcha validation failed' }),
+    };
+  }
 
   const lang = data.language === 'en' ? 'en' : 'es';
   const labels = lang === 'en'
