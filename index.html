@@ -236,7 +236,7 @@
     <div class="row row-form" id="cotizar">
     <div class="col-xm-10 col-sm-6 col-md-6 col-lg-6 formulario">
         <div class="cotizador" data-maps-key="AIzaSyDfc5puC5-25Kc3NGhX-cFoQgb2jce92Do">
-          <form id="cotizador-form" name="español" action="/.netlify/functions/send-quote" method="POST" netlify data-netlify-recaptcha="true">
+          <form id="cotizador-form" name="español" action="/.netlify/functions/send-quote" method="POST" netlify>
             <input type="hidden" name="form-name" value="español">
             <input type="hidden" name="language" id="lang-input" value="es">
             <input type="hidden" name="currency" id="currency-input" value="ARS">
@@ -622,7 +622,7 @@
                 <div class="disclaimer" data-t="disclaimer"><strong>Este precio es un estimado.</strong> No incluye peajes ni tiempo de espera — ambos se cotizan de forma separada con el operador. El precio final se confirma al momento de la reserva.</div>
 
                 <div class="recaptcha-wrap">
-                  <div data-netlify-recaptcha="true"></div>
+                  <div class="g-recaptcha" data-sitekey="6LfVvrgsAAAAANBDj9Zc0QJYMxsHOdUFhIMOv3pz"></div>
                 </div>
 
                 <div class="btn-row">
@@ -765,6 +765,7 @@
 
   <!-- FONTAWESOME -->
   <script src="https://kit.fontawesome.com/2c14e4bbc6.js" crossorigin="anonymous"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

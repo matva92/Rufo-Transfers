@@ -232,7 +232,7 @@
     <div class="row row-form" id="quote-form">
       <div class="col-xm-10 col-sm-6 col-md-6 col-lg-6 formulario">
         <div class="cotizador" data-maps-key="AIzaSyDfc5puC5-25Kc3NGhX-cFoQgb2jce92Do">
-          <form id="cotizador-form" name="portugues" action="/.netlify/functions/send-quote" method="POST" netlify data-netlify-recaptcha="true">
+          <form id="cotizador-form" name="portugues" action="/.netlify/functions/send-quote" method="POST" netlify>
             <input type="hidden" name="form-name" value="portugues">
             <input type="hidden" name="language" id="lang-input" value="pt">
             <input type="hidden" name="currency" id="currency-input" value="ARS">
@@ -618,7 +618,7 @@
                 <div class="disclaimer" data-t="disclaimer"><strong>This price is an estimate.</strong> It does not include tolls or waiting time � both are quoted separately with the operator. The final price is confirmed at the time of booking.</div>
 
                 <div class="recaptcha-wrap">
-                  <div data-netlify-recaptcha="true"></div>
+                  <div class="g-recaptcha" data-sitekey="6LfVvrgsAAAAANBDj9Zc0QJYMxsHOdUFhIMOv3pz"></div>
                 </div>
 
                 <div class="btn-row">
@@ -760,6 +760,7 @@
 
 
 
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
