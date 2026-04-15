@@ -133,7 +133,8 @@ exports.handler = async (event) => {
   const data = Object.fromEntries(params);
   const clientIp = getClientIp(event);
 
-  if (String(data.company || '').trim()) {
+  const honeypotValue = String(data.website_url_hp || data.company || '').trim();
+  if (honeypotValue) {
     return {
       statusCode: 400,
       headers: { 'content-type': 'application/json; charset=utf-8' },
