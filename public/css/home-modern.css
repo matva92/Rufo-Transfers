@@ -346,11 +346,26 @@
     gap: 0.8rem;
 }
 
+.home-page .route-grid,
+.home-page .faq-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
 .home-page .service-item {
     border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.12);
     padding: 0.9rem 0.95rem;
+}
+
+.home-page .route-item,
+.home-page .faq-item {
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 0.95rem 1rem;
 }
 
 .home-page .service-item h3 {
@@ -359,10 +374,44 @@
     color: #ffffff;
 }
 
+.home-page .route-item h3,
+.home-page .faq-item h3 {
+    margin: 0;
+    font-size: 0.97rem;
+    color: #ffffff;
+    line-height: 1.4;
+}
+
 .home-page .service-item p {
     margin-top: 0.42rem;
     margin-bottom: 0;
     font-size: 0.92rem;
+}
+
+.home-page .route-item p,
+.home-page .faq-item p {
+    margin-top: 0.46rem;
+    margin-bottom: 0;
+    font-size: 0.92rem;
+}
+
+.home-page .tour-tags {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.home-page .tour-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.42rem 0.72rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.82rem;
+    line-height: 1;
 }
 
 .home-page .photo-grid {
@@ -633,6 +682,8 @@
 
     .home-page .timeline-grid,
     .home-page .service-grid,
+    .home-page .route-grid,
+    .home-page .faq-list,
     .home-page .photo-grid {
         grid-template-columns: 1fr;
     }
